@@ -78,24 +78,27 @@ namespace BackEnd.DAO
             return usuarios.Count > 0;
         }
 
-        public UsuarioDTO Login(UsuarioDTO usuario)
+        public UsuarioDTO Login(string Email, string Senha)
         {
             var conexao = ConnectionFactory.Build();
             conexao.Open();
 
             var query = "SELECT * FROM Usuario WHERE email = @email and senha = @senha";
 
+            var id = BuscarIDPorEmail(Email);
+
             var comando = new MySqlCommand(query, conexao);
-            comando.Parameters.AddWithValue("@email", usuario.Email);
-            comando.Parameters.AddWithValue("@senha", usuario.Senha);
+            comando.Parameters.AddWithValue("@email", Email);
+            comando.Parameters.AddWithValue("@senha", Senha);
 
             var dataReader = comando.ExecuteReader();
 
-            usuario = new UsuarioDTO();
+            var usuario = new UsuarioDTO();
+
+            usuario.ID = id;
 
             while (dataReader.Read())
             {
-                usuario.ID = int.Parse(dataReader["ID"].ToString());
                 usuario.Nome = dataReader["Nome"].ToString();
                 usuario.Email = dataReader["Email"].ToString();
                 usuario.Senha = dataReader["Senha"].ToString();
@@ -131,6 +134,25 @@ namespace BackEnd.DAO
             conexao.Close();
 
             return usuario;
+        }
+
+
+
+        internal int BuscarIDPorEmail(string email)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = "SELECT id FROM Usuario WHERE email = @email";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@email", email);
+
+            var idBD = comando.ExecuteScalar();
+
+            var id = int.Parse(idBD.ToString());
+
+            return id;
         }
     }
 }

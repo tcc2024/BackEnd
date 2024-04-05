@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\home\\TEMP.LAB\\Desktop\\back\\BackEnd\\BackEnd\\BackEnd\\BackEnd.csproj": {}
+    "D:\\home\\Douglas_22124\\Desktop\\Nova pasta\\BackEnd\\BackEnd\\BackEnd.csproj": {}
   },
   "projects": {
-    "D:\\home\\TEMP.LAB\\Desktop\\back\\BackEnd\\BackEnd\\BackEnd\\BackEnd.csproj": {
+    "D:\\home\\Douglas_22124\\Desktop\\Nova pasta\\BackEnd\\BackEnd\\BackEnd.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\home\\TEMP.LAB\\Desktop\\back\\BackEnd\\BackEnd\\BackEnd\\BackEnd.csproj",
+        "projectUniqueName": "D:\\home\\Douglas_22124\\Desktop\\Nova pasta\\BackEnd\\BackEnd\\BackEnd.csproj",
         "projectName": "BackEnd",
-        "projectPath": "D:\\home\\TEMP.LAB\\Desktop\\back\\BackEnd\\BackEnd\\BackEnd\\BackEnd.csproj",
-        "packagesPath": "D:\\home\\TEMP.LAB\\.nuget\\packages\\",
-        "outputPath": "D:\\home\\TEMP.LAB\\Desktop\\back\\BackEnd\\BackEnd\\BackEnd\\obj\\",
+        "projectPath": "D:\\home\\Douglas_22124\\Desktop\\Nova pasta\\BackEnd\\BackEnd\\BackEnd.csproj",
+        "packagesPath": "D:\\home\\Douglas_22124\\.nuget\\packages\\",
+        "outputPath": "D:\\home\\Douglas_22124\\Desktop\\Nova pasta\\BackEnd\\BackEnd\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "D:\\home\\TEMP.LAB\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "D:\\home\\Douglas_22124\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -51,7 +51,7 @@
             },
             "Microsoft.IdentityModel.Tokens": {
               "target": "Package",
-              "version": "[7.5.0, )"
+              "version": "[6.35.0, )"
             },
             "MySql.Data": {
               "target": "Package",

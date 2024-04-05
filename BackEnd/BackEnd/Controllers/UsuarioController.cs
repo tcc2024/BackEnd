@@ -36,10 +36,10 @@ namespace BackEnd.Controllers
         [HttpPost]
         [Route("Login")]
         [AllowAnonymous]
-        public IActionResult Login([FromForm] UsuarioDTO usuario)
+        public IActionResult Login([FromForm] string Email, string Senha)
         {
             var dao = new UsuarioDAO();
-            var usuarioLogado = dao.Login(usuario);
+            var usuarioLogado = dao.Login(Email, Senha);
 
             if (usuarioLogado.ID == 0)
             {
