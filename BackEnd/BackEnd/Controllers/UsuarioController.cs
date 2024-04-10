@@ -57,7 +57,6 @@ namespace BackEnd.Controllers
         {
             var dao = new UsuarioDAO();
             var id = int.Parse(HttpContext.User.FindFirst("id")?.Value);
-
             var usuario = dao.BuscarUsuarioPorID(id);
 
             return Ok(usuario);
