@@ -95,10 +95,10 @@ namespace BackEnd.DAO
 
             var usuario = new UsuarioDTO();
 
-            usuario.ID = id;
 
             while (dataReader.Read())
             {
+                usuario.ID = int.Parse(dataReader["ID"].ToString());
                 usuario.Nome = dataReader["Nome"].ToString();
                 usuario.Email = dataReader["Email"].ToString();
                 usuario.Senha = dataReader["Senha"].ToString();

@@ -12,6 +12,7 @@ namespace BackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsuarioController : ControllerBase
     {
 
@@ -36,10 +37,10 @@ namespace BackEnd.Controllers
         [HttpPost]
         [Route("Login")]
         [AllowAnonymous]
-        public IActionResult Login([FromForm] string Email, string Senha)
+        public IActionResult Login([FromForm] string email, [FromForm] string senha)
         {
             var dao = new UsuarioDAO();
-            var usuarioLogado = dao.Login(Email, Senha);
+            var usuarioLogado = dao.Login(email, senha);
 
             if (usuarioLogado.ID == 0)
             {

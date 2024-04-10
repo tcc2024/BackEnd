@@ -2690,24 +2690,19 @@
     ]
   },
   "packageFolders": {
-    "D:\\home\\Douglas_22124\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\geova\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\home\\Douglas_22124\\Desktop\\Nova pasta\\BackEnd\\BackEnd\\BackEnd.csproj",
+      "projectUniqueName": "C:\\Users\\geova\\source\\repos\\BackEnd\\BackEnd\\BackEnd\\BackEnd.csproj",
       "projectName": "BackEnd",
-      "projectPath": "D:\\home\\Douglas_22124\\Desktop\\Nova pasta\\BackEnd\\BackEnd\\BackEnd.csproj",
-      "packagesPath": "D:\\home\\Douglas_22124\\.nuget\\packages\\",
-      "outputPath": "D:\\home\\Douglas_22124\\Desktop\\Nova pasta\\BackEnd\\BackEnd\\obj\\",
+      "projectPath": "C:\\Users\\geova\\source\\repos\\BackEnd\\BackEnd\\BackEnd\\BackEnd.csproj",
+      "packagesPath": "C:\\Users\\geova\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\geova\\source\\repos\\BackEnd\\BackEnd\\BackEnd\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "D:\\home\\Douglas_22124\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\geova\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2715,7 +2710,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -2728,6 +2722,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -2770,7 +2769,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202\\RuntimeIdentifierGraph.json"
       }
     }
   }
