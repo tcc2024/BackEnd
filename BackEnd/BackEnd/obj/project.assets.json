@@ -2696,11 +2696,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\home\\Douglas_22124\\Desktop\\Nova pasta\\BackEnd\\BackEnd\\BackEnd.csproj",
+      "projectUniqueName": "D:\\home\\Douglas_22124\\Desktop\\BackEnd\\BackEnd\\BackEnd\\BackEnd\\BackEnd.csproj",
       "projectName": "BackEnd",
-      "projectPath": "D:\\home\\Douglas_22124\\Desktop\\Nova pasta\\BackEnd\\BackEnd\\BackEnd.csproj",
+      "projectPath": "D:\\home\\Douglas_22124\\Desktop\\BackEnd\\BackEnd\\BackEnd\\BackEnd\\BackEnd.csproj",
       "packagesPath": "D:\\home\\Douglas_22124\\.nuget\\packages\\",
-      "outputPath": "D:\\home\\Douglas_22124\\Desktop\\Nova pasta\\BackEnd\\BackEnd\\obj\\",
+      "outputPath": "D:\\home\\Douglas_22124\\Desktop\\BackEnd\\BackEnd\\BackEnd\\BackEnd\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

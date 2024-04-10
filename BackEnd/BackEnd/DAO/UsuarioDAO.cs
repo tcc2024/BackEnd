@@ -83,6 +83,8 @@ namespace BackEnd.DAO
             var conexao = ConnectionFactory.Build();
             conexao.Open();
 
+            var usuario = new UsuarioDTO();
+
             var query = "SELECT * FROM Usuario WHERE email = @email and senha = @senha";
 
             var id = BuscarIDPorEmail(Email);
@@ -92,8 +94,6 @@ namespace BackEnd.DAO
             comando.Parameters.AddWithValue("@senha", Senha);
 
             var dataReader = comando.ExecuteReader();
-
-            var usuario = new UsuarioDTO();
 
             usuario.ID = id;
 
