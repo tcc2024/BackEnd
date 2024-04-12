@@ -95,7 +95,7 @@ namespace BackEnd.DAO
 
             var dataReader = comando.ExecuteReader();
 
-            var usuario = new UsuarioDTO();
+            usuario = new UsuarioDTO();
 
             usuario.ID = id;
 
