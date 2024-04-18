@@ -1,7 +1,9 @@
 ﻿using BackEnd.DAO;
+using BackEnd.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Crypto.Digests;
 
 namespace BackEnd.Controllers
 {
@@ -19,6 +21,16 @@ namespace BackEnd.Controllers
             var dao = new ProjetoDAO();
             var listarProjeto = dao.ListarProjetosPorUsuario(id);
             return Ok(listarProjeto);
+        }
+
+        [HttpPost]
+        [Route("CriarProjeto")]
+        public IActionResult CriarProjeto([FromBody] ProjetoDTO projeto)
+        {
+            var dao = new ProjetoDAO();
+
+            dao.CriarProjeto(projeto);
+            return Ok();
         }
     }
 }

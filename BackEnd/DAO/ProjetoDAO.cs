@@ -39,5 +39,38 @@ namespace BackEnd.DAO
 
             return projetos;
         }
+
+
+        public void CriarProjeto(ProjetoDTO projeto)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = @"INSERT INTO Projeto (Nome, Descricao) VALUES
+    				(@nome,@descricao)";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@nome", projeto.Nome);
+            comando.Parameters.AddWithValue("@email", projeto.Descricao);
+
+            comando.ExecuteNonQuery();
+            conexao.Close();
+        }
+
+        public void AdicionarIntegrante (int idP, int idU)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = @"INSERT INTO Projeto_Usuario (IdProjeto, IdUsuario) VALUES
+    				(@idP,@idU)";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@idP", idP);
+            comando.Parameters.AddWithValue("@idU", idU);
+
+            comando.ExecuteNonQuery();
+            conexao.Close();
+        }
     }
 }
