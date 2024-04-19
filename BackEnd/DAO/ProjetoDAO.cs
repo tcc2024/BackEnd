@@ -7,8 +7,6 @@ namespace BackEnd.DAO
     {
         public List<ProjetoDTO> ListarProjetosPorUsuario(int id)
         {
-            var usuario = new UsuarioDTO();
-
             var conexao = ConnectionFactory.Build();
             conexao.Open();
 
@@ -16,8 +14,6 @@ namespace BackEnd.DAO
                         $"inner join usuarios_projeto as up on p.id = up.projeto_id " +
                         $"inner join usuario as u on up.usuario_id = u.id " +
                         $"where u.id= @id";
-
-            var email = usuario.Email;
 
             var comando = new MySqlCommand(query, conexao);
             comando.Parameters.AddWithValue("@id", id);
@@ -41,28 +37,31 @@ namespace BackEnd.DAO
         }
 
 
-        public void CriarProjeto(ProjetoDTO projeto)
+        public void CriarProjeto(ProjetoDTO projeto, int idU)
         {
             var conexao = ConnectionFactory.Build();
             conexao.Open();
 
             var query = @"INSERT INTO Projeto (Nome, Descricao) VALUES
-    				(@nome,@descricao)";
+    				(@nome,@descricao);
+                    SELECT LAST_INSERT_ID();";
 
             var comando = new MySqlCommand(query, conexao);
             comando.Parameters.AddWithValue("@nome", projeto.Nome);
             comando.Parameters.AddWithValue("@email", projeto.Descricao);
 
-            comando.ExecuteNonQuery();
+            int idP = Convert.ToInt32(comando.ExecuteScalar());
+
             conexao.Close();
+            AdicionarCriadorAoProjeto(idP, idU);
         }
 
-        public void AdicionarIntegrante (int idP, int idU)
+        public void AdicionarCriadorAoProjeto (int idP, int idU)
         {
             var conexao = ConnectionFactory.Build();
             conexao.Open();
 
-            var query = @"INSERT INTO Projeto_Usuario (IdProjeto, IdUsuario) VALUES
+            var query = @"INSERT INTO Usuarios_Projeto (Projeto_ID, Usuario_ID) VALUES
     				(@idP,@idU)";
 
             var comando = new MySqlCommand(query, conexao);

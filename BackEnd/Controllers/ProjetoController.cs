@@ -27,9 +27,10 @@ namespace BackEnd.Controllers
         [Route("CriarProjeto")]
         public IActionResult CriarProjeto([FromBody] ProjetoDTO projeto)
         {
-            var dao = new ProjetoDAO();
+            var id = int.Parse(HttpContext.User.FindFirst("id")?.Value);
 
-            dao.CriarProjeto(projeto);
+            var dao = new ProjetoDAO();
+            dao.CriarProjeto(projeto, id);
             return Ok();
         }
     }
