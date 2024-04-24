@@ -14,8 +14,6 @@ namespace BackEnd.Controllers
         [Route("listarTarefa")]
         public IActionResult Listar()
         {
-            var usuarioController = new UsuarioController();
-            usuarioController.GetUserData();
             var id = int.Parse(HttpContext.User.FindFirst("id")?.Value);
 
             var dao = new TarefaDAO();
