@@ -32,21 +32,25 @@ namespace BackEnd.DAO
             return usuarios;
         }
 
-        public void Cadastrar(UsuarioDTO usuario)
+        public int Cadastrar(UsuarioDTO usuario)
         {
             var conexao = ConnectionFactory.Build();
             conexao.Open();
 
             var query = @"INSERT INTO Usuario (Nome, Email, Senha) VALUES
-    				(@nome,@email,@senha)";
+    				(@nome,@email,@senha)
+                    SELECT LAST_INSERT_ID();";
 
             var comando = new MySqlCommand(query, conexao);
             comando.Parameters.AddWithValue("@nome", usuario.Nome);
             comando.Parameters.AddWithValue("@email", usuario.Email);
             comando.Parameters.AddWithValue("@senha", usuario.Senha);
 
-            comando.ExecuteNonQuery();
+            var idBD = comando.ExecuteScalar();
             conexao.Close();
+
+            var id = int.Parse(idBD.ToString());
+            return id;
         }
 
         internal bool VerificarUsuario(UsuarioDTO usuario)

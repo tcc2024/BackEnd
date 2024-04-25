@@ -21,16 +21,18 @@ namespace BackEnd.Controllers
         [AllowAnonymous]
         public IActionResult Cadastrar([FromBody] UsuarioDTO usuario)
         {
-            var dao = new UsuarioDAO();
+            var usuDAO = new UsuarioDAO();
+            var projDAO = new ProjetoDAO();
 
-            bool usuarioExiste = dao.VerificarUsuario(usuario);
+            bool usuarioExiste = usuDAO.VerificarUsuario(usuario);
             if (usuarioExiste)
             {
                 var mensagem = "E-mail já existe na base de dados";
                 return Conflict(mensagem);
             }
 
-            dao.Cadastrar(usuario);
+            var idNovo = usuDAO.Cadastrar(usuario);
+            projDAO.CriarProjetoMinhasTarefas(idNovo);
             return Ok();
         }
 

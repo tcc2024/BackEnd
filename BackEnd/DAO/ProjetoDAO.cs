@@ -36,6 +36,23 @@ namespace BackEnd.DAO
             return projetos;
         }
 
+        public void CriarProjetoMinhasTarefas(int idNovo)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = @"INSERT INTO Projeto (Nome, Descricao) VALUES
+    				('Minhas Tarefas','Crie, gerencie e organize suas tarefas pessoais aqui!');
+                    SELECT LAST_INSERT_ID();";
+
+            var comando = new MySqlCommand(query, conexao);
+
+            int idP = Convert.ToInt32(comando.ExecuteScalar());
+
+            conexao.Close();
+            AdicionarCriadorAoProjeto(idP, idNovo);
+        }
+
 
         public void CriarProjeto(ProjetoDTO projeto, int idU)
         {
