@@ -21,5 +21,15 @@ namespace BackEnd.Controllers
             return Ok(listarTarefa);
         }
 
+        [HttpPost]
+        [Route("CriarTarefa")]
+        public IActionResult CriarTarefa([FromBody] TarefaDTO tarefa)
+        {
+            var id = int.Parse(HttpContext.User.FindFirst("id")?.Value);
+
+            var dao = new TarefaDAO();
+            dao.CriarTarefa(tarefa);
+            return Ok();
+        }
     }
 }

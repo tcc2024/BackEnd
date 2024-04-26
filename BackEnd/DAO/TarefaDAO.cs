@@ -43,5 +43,45 @@ namespace BackEnd.DAO
 
             return tarefas;
         }
+
+        public void CriarTarefa(TarefaDTO tarefa)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = @"INSERT INTO Tarefa (Nome, Descricao, Status, DataEntrega) VALUES
+    				(@nome,@descricao,'Pendente',@dataentrega);
+                    SELECT LAST_INSERT_ID();";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@nome", tarefa.Titulo);
+            comando.Parameters.AddWithValue("@descricao", tarefa.Descricao);
+            comando.Parameters.AddWithValue("@dataentrega", tarefa.DataEntrega);
+
+            int idT = Convert.ToInt32(comando.ExecuteScalar());
+
+            conexao.Close();
+
+            foreach (var membro in tarefa.UsuariosAtribuidos)
+            {
+                AdicionarUsuarioNaTarefa(idT, membro.ID);
+            }
+        }
+
+        public void AdicionarUsuarioNaTarefa(int idT, int idU)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = @"INSERT INTO Usuarios_Tarefa (Usuario_ID, Tarefa_ID) VALUES
+    				(@idU, @idT)";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@idT", idT);
+            comando.Parameters.AddWithValue("@idU", idU);
+
+            comando.ExecuteNonQuery();
+            conexao.Close();
+        }
     }
 }

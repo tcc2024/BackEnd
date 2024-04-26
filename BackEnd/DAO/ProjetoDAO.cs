@@ -50,14 +50,19 @@ namespace BackEnd.DAO
             int idP = Convert.ToInt32(comando.ExecuteScalar());
 
             conexao.Close();
-            AdicionarCriadorAoProjeto(idP, idNovo);
+            AdicionarUsuarioAoProjeto(idP, idNovo);
         }
 
 
-        public void CriarProjeto(ProjetoDTO projeto, int idU)
+        public void CriarProjeto(ProjetoDTO projeto, int idCriador)
         {
             var conexao = ConnectionFactory.Build();
             conexao.Open();
+
+            if (!projeto.Usuarios.Any(membro => membro.ID == idCriador) && projeto.Usuarios is not null)
+            {
+                projeto.Usuarios.Add(new UsuarioDTO() { ID = idCriador });
+            }
 
             var query = @"INSERT INTO Projeto (Nome, Descricao) VALUES
     				(@nome,@descricao);
@@ -67,13 +72,17 @@ namespace BackEnd.DAO
             comando.Parameters.AddWithValue("@nome", projeto.Nome);
             comando.Parameters.AddWithValue("@email", projeto.Descricao);
 
-            int idP = Convert.ToInt32(comando.ExecuteScalar());
+            int idProjeto = Convert.ToInt32(comando.ExecuteScalar());
 
             conexao.Close();
-            AdicionarCriadorAoProjeto(idP, idU);
+
+            foreach (var membro in projeto.Usuarios)
+            {
+                AdicionarUsuarioAoProjeto(idProjeto, membro.ID);
+            }
         }
 
-        public void AdicionarCriadorAoProjeto (int idP, int idU)
+        public void AdicionarUsuarioAoProjeto(int idP, int idU)
         {
             var conexao = ConnectionFactory.Build();
             conexao.Open();
