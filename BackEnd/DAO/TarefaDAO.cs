@@ -33,8 +33,6 @@ namespace BackEnd.DAO
                 tarefa.Titulo = dataReader["nometare"].ToString();
                 tarefa.Descricao = dataReader["descricao"].ToString();
 
-                projeto.Nome = dataReader["nomepro"].ToString();
-
                 tarefa.Projeto = projeto.Nome;
 
                 tarefas.Add(tarefa);
@@ -66,6 +64,10 @@ namespace BackEnd.DAO
             {
                 AdicionarUsuarioNaTarefa(idT, membro.ID);
             }
+            foreach (var anexo in tarefa.Anexos)
+            {
+                AdicionarAnexoNaTarefa(idT, anexo.URL);
+            }
         }
 
         public void AdicionarUsuarioNaTarefa(int idT, int idU)
@@ -83,5 +85,22 @@ namespace BackEnd.DAO
             comando.ExecuteNonQuery();
             conexao.Close();
         }
+
+        public void AdicionarAnexoNaTarefa(int idT, string urlAnexo)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = @"INSERT INTO MtTrabalho (Usuario_ID, Tarefa_ID) VALUES
+    				(@idU, @idT)";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@idT", idT);
+            comando.Parameters.AddWithValue("@idU", urlAnexo);
+
+            comando.ExecuteNonQuery();
+            conexao.Close();
+        }
     }
 }
+    
