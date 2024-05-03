@@ -1,4 +1,5 @@
-﻿using BackEnd.DAO;
+﻿
+using BackEnd.DAO;
 using BackEnd.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -29,11 +30,11 @@ namespace BackEnd.Controllers
             return Ok();
         }
         [HttpDelete]
-        public IActionResult RemoverUsuarioDoEvento(int id)
+        public IActionResult RemoverUsuarioDoEvento(int idU, int idE)
         {
             var dao = new EventosDAO();
 
-            dao.RemoverUsuario(id);
+            dao.RemoverUsuario(idU, idE);
 
             return Ok();
         }
