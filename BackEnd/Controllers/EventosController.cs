@@ -25,10 +25,17 @@ namespace BackEnd.Controllers
         [Route("CriarEvento")]
         public IActionResult CriarProjeto([FromBody] EventosDTO evento)
         {
-            var id = int.Parse(HttpContext.User.FindFirst("id")?.Value);
-
             var dao = new EventosDAO();
-            dao.CriarEvento(evento, id);
+            dao.CriarEvento(evento);
+            return Ok();
+        }
+        [HttpDelete]
+        public IActionResult RemoverUsuarioDoEvento(int id)
+        {
+            var dao = new EventosDAO();
+
+            dao.RemoverUsuario(id);
+
             return Ok();
         }
     }

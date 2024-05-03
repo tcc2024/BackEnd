@@ -1,4 +1,5 @@
-﻿/* using BackEnd.DTO;
+﻿using BackEnd.DTO;
+using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 
 namespace BackEnd.DAO
@@ -31,7 +32,7 @@ namespace BackEnd.DAO
                 evento.ID = int.Parse(dataReader["IDevento"].ToString());
                 evento.Titulo = dataReader["Nome"].ToString();
                 evento.Descricao = dataReader["Descricao"].ToString();
-                evento.DataHora = DateTime(dataReader["DataHora"].ToString());
+                evento.DataHora = DateTime.Parse(dataReader["DataHora"].ToString());
 
                 projeto.Nome = dataReader["NomeProjeto"].ToString();
 
@@ -81,6 +82,21 @@ namespace BackEnd.DAO
             comando.ExecuteNonQuery();
             conexao.Close();
         }
+
+        public void RemoverUsuario(int id)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = @"DELETE FROM Usuarios_Eventos WHERE Usuario_ID = @id";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@id", id);
+
+            comando.ExecuteNonQuery();
+            conexao.Close();
+        }
+
     }
 }
 */
