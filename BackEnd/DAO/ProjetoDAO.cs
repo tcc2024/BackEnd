@@ -97,5 +97,20 @@ namespace BackEnd.DAO
             comando.ExecuteNonQuery();
             conexao.Close();
         }
+
+        public void RemoverUsuario(int idU, int idP)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = @"DELETE FROM Usuarios_Eventos WHERE Usuario_ID = @idU AND Eventos_ID = @idE";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@idU", idU);
+            comando.Parameters.AddWithValue("@idE", idP);
+
+            comando.ExecuteNonQuery();
+            conexao.Close();
+        }
     }
 }
