@@ -59,43 +59,48 @@ namespace BackEnd.DAO
             var conexao = ConnectionFactory.Build();
             conexao.Open();
 
-            if (!projeto.Usuarios.Any(membro => membro.ID == idCriador) && projeto.Usuarios is not null)
+            if (projeto.Usuarios is null)
             {
-                projeto.Usuarios.Add(new UsuarioDTO() { ID = idCriador });
+                projeto.Usuarios = new List<UsuarioDTO>() { new UsuarioDTO() { ID = idCriador } };
             }
 
-            var query = @"INSERT INTO Projeto (Nome, Descricao) VALUES
+            if (projeto.Usuarios is not null && !projeto.Usuarios.Any(membro => membro.ID == idCriador))
+                {
+                    projeto.Usuarios.Add(new UsuarioDTO() { ID = idCriador });
+                }
+
+                var query = @"INSERT INTO Projeto (Nome, Descricao) VALUES
     				(@nome,@descricao);
                     SELECT LAST_INSERT_ID();";
 
-            var comando = new MySqlCommand(query, conexao);
-            comando.Parameters.AddWithValue("@nome", projeto.Nome);
-            comando.Parameters.AddWithValue("@email", projeto.Descricao);
+                var comando = new MySqlCommand(query, conexao);
+                comando.Parameters.AddWithValue("@nome", projeto.Nome);
+                comando.Parameters.AddWithValue("@descricao", projeto.Descricao);
 
-            int idProjeto = Convert.ToInt32(comando.ExecuteScalar());
+                int idProjeto = Convert.ToInt32(comando.ExecuteScalar());
 
-            conexao.Close();
+                conexao.Close();
 
-            foreach (var membro in projeto.Usuarios)
-            {
-                AdicionarUsuarioAoProjeto(idProjeto, membro.ID);
+                foreach (var membro in projeto.Usuarios)
+                {
+                    AdicionarUsuarioAoProjeto(idProjeto, membro.ID);
+                }
             }
-        }
 
-        public void AdicionarUsuarioAoProjeto(int idP, int idU)
-        {
-            var conexao = ConnectionFactory.Build();
-            conexao.Open();
+            public void AdicionarUsuarioAoProjeto(int idP, int idU)
+            {
+                var conexao = ConnectionFactory.Build();
+                conexao.Open();
 
-            var query = @"INSERT INTO Usuarios_Projeto (Projeto_ID, Usuario_ID) VALUES
+                var query = @"INSERT INTO Usuarios_Projeto (Projeto_ID, Usuario_ID) VALUES
     				(@idP,@idU)";
 
-            var comando = new MySqlCommand(query, conexao);
-            comando.Parameters.AddWithValue("@idP", idP);
-            comando.Parameters.AddWithValue("@idU", idU);
+                var comando = new MySqlCommand(query, conexao);
+                comando.Parameters.AddWithValue("@idP", idP);
+                comando.Parameters.AddWithValue("@idU", idU);
 
-            comando.ExecuteNonQuery();
-            conexao.Close();
+                comando.ExecuteNonQuery();
+                conexao.Close();
+            }
         }
     }
-}

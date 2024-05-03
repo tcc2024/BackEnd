@@ -3,8 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\geova\\source\\repos\\BackEnd\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{830500B2-453C-414E-A51C-889EFFDF7288}|BackEnd\\BackEnd.csproj|c:\\users\\geova\\source\\repos\\backend\\backend\\dto\\usuariodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{830500B2-453C-414E-A51C-889EFFDF7288}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\dto\\usuariodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{830500B2-453C-414E-A51C-889EFFDF7288}|BackEnd\\BackEnd.csproj|c:\\users\\geova\\source\\repos\\backend\\backend\\dto\\projetodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{830500B2-453C-414E-A51C-889EFFDF7288}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\dto\\projetodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{830500B2-453C-414E-A51C-889EFFDF7288}|BackEnd\\BackEnd.csproj|c:\\users\\geova\\source\\repos\\backend\\backend\\controllers\\projetocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{830500B2-453C-414E-A51C-889EFFDF7288}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\controllers\\projetocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{830500B2-453C-414E-A51C-889EFFDF7288}|BackEnd\\BackEnd.csproj|c:\\users\\geova\\source\\repos\\backend\\backend\\dao\\eventosdao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{830500B2-453C-414E-A51C-889EFFDF7288}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\dao\\eventosdao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{830500B2-453C-414E-A51C-889EFFDF7288}|BackEnd\\BackEnd.csproj|c:\\users\\geova\\source\\repos\\backend\\backend\\controllers\\eventoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{830500B2-453C-414E-A51C-889EFFDF7288}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\controllers\\eventoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,14 +31,53 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "UsuarioDTO.cs",
-              "DocumentMoniker": "C:\\Users\\geova\\source\\repos\\BackEnd\\BackEnd\\DTO\\UsuarioDTO.cs",
-              "RelativeDocumentMoniker": "BackEnd\\DTO\\UsuarioDTO.cs",
-              "ToolTip": "C:\\Users\\geova\\source\\repos\\BackEnd\\BackEnd\\DTO\\UsuarioDTO.cs",
-              "RelativeToolTip": "BackEnd\\DTO\\UsuarioDTO.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAVAAAA",
+              "Title": "ProjetoDTO.cs",
+              "DocumentMoniker": "C:\\Users\\geova\\source\\repos\\BackEnd\\BackEnd\\DTO\\ProjetoDTO.cs",
+              "RelativeDocumentMoniker": "BackEnd\\DTO\\ProjetoDTO.cs",
+              "ToolTip": "C:\\Users\\geova\\source\\repos\\BackEnd\\BackEnd\\DTO\\ProjetoDTO.cs",
+              "RelativeToolTip": "BackEnd\\DTO\\ProjetoDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAATAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-11T00:36:53.088Z",
+              "WhenOpened": "2024-05-03T00:26:27.362Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ProjetoController.cs",
+              "DocumentMoniker": "C:\\Users\\geova\\source\\repos\\BackEnd\\BackEnd\\Controllers\\ProjetoController.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Controllers\\ProjetoController.cs",
+              "ToolTip": "C:\\Users\\geova\\source\\repos\\BackEnd\\BackEnd\\Controllers\\ProjetoController.cs",
+              "RelativeToolTip": "BackEnd\\Controllers\\ProjetoController.cs",
+              "ViewState": "AQIAABEAAAAAAAAAAAAAwBwAAAA4AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-03T00:26:23.82Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "EventosDAO.cs",
+              "DocumentMoniker": "C:\\Users\\geova\\source\\repos\\BackEnd\\BackEnd\\DAO\\EventosDAO.cs",
+              "RelativeDocumentMoniker": "BackEnd\\DAO\\EventosDAO.cs",
+              "ToolTip": "C:\\Users\\geova\\source\\repos\\BackEnd\\BackEnd\\DAO\\EventosDAO.cs",
+              "RelativeToolTip": "BackEnd\\DAO\\EventosDAO.cs",
+              "ViewState": "AQIAADwAAAAAAAAAAAAmwFUAAAACAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-02T22:15:08.081Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "EventosController.cs",
+              "DocumentMoniker": "C:\\Users\\geova\\source\\repos\\BackEnd\\BackEnd\\Controllers\\EventosController.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Controllers\\EventosController.cs",
+              "ToolTip": "C:\\Users\\geova\\source\\repos\\BackEnd\\BackEnd\\Controllers\\EventosController.cs",
+              "RelativeToolTip": "BackEnd\\Controllers\\EventosController.cs",
+              "ViewState": "AQIAAAgAAAAAAAAAAAAIwCIAAAADAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-02T22:12:30.121Z",
               "EditorCaption": ""
             }
           ]
