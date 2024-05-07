@@ -64,9 +64,9 @@ namespace BackEnd.DAO
             {
                 AdicionarUsuarioNaTarefa(idT, membro.ID);
             }
-            foreach (var anexo in tarefa.Anexos)
+            foreach (var referencia in tarefa.Referencias)
             {
-                AdicionarAnexoNaTarefa(idT, anexo.URL);
+                AdicionarReferenciaNaTarefa(idT, referencia.URL);
             }
         }
 
@@ -86,17 +86,78 @@ namespace BackEnd.DAO
             conexao.Close();
         }
 
+        public void AdicionarReferenciaNaTarefa(int idT, string urlReferencia)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = @"INSERT INTO tarefa_has_mtreferencia (URL, Tarefa_ID) VALUES
+    				(@urlReferencia, @idT)";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@idT", idT);
+            comando.Parameters.AddWithValue("@urlReferencia", urlReferencia);
+
+            comando.ExecuteNonQuery();
+            conexao.Close();
+        }
+
         public void AdicionarAnexoNaTarefa(int idT, string urlAnexo)
         {
             var conexao = ConnectionFactory.Build();
             conexao.Open();
 
-            var query = @"INSERT INTO MtTrabalho (Usuario_ID, Tarefa_ID) VALUES
-    				(@idU, @idT)";
+            var query = @"INSERT INTO tarefa_has_mttrabalho (URL, Tarefa_ID) VALUES
+    				(@urlAnexo, @idT)";
 
             var comando = new MySqlCommand(query, conexao);
             comando.Parameters.AddWithValue("@idT", idT);
-            comando.Parameters.AddWithValue("@idU", urlAnexo);
+            comando.Parameters.AddWithValue("@urlAnexo", urlAnexo);
+
+            comando.ExecuteNonQuery();
+            conexao.Close();
+        }
+
+        public void RemoverReferenciaDaTarefa(int idT, int idM)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = @"DELTE FROM MtReferencia_has_Tarefa WHERE MtReferencia_ID = @idM AND Tarefa_ID = @idT";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@idT", idT);
+            comando.Parameters.AddWithValue("@idM", idM);
+
+            comando.ExecuteNonQuery();
+            conexao.Close();
+        }
+
+        public void RemoverAnexoDaTarefa(int idT, int idM)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = @"DELTE FROM Tarefa_has_MtTrabalho WHERE MtTrabalho_ID = @idM AND Tarefa_ID = @idT";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@idT", idT);
+            comando.Parameters.AddWithValue("@idM", idM);
+
+            comando.ExecuteNonQuery();
+            conexao.Close();
+        }
+
+        public void RemoverUsuario(int idU, int idT)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = @"DELETE FROM Usuarios_Tarefas WHERE Usuario_ID = @idU AND Tarefas_ID = @idT";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@idU", idU);
+            comando.Parameters.AddWithValue("@idT", idT);
 
             comando.ExecuteNonQuery();
             conexao.Close();

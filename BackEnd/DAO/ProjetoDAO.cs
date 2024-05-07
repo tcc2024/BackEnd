@@ -65,9 +65,9 @@ namespace BackEnd.DAO
             }
 
             if (projeto.Usuarios is not null && !projeto.Usuarios.Any(membro => membro.ID == idCriador))
-                {
+            {
                     projeto.Usuarios.Add(new UsuarioDTO() { ID = idCriador });
-                }
+            }
 
                 var query = @"INSERT INTO Projeto (Nome, Descricao) VALUES
     				(@nome,@descricao);
@@ -85,7 +85,7 @@ namespace BackEnd.DAO
                 {
                     AdicionarUsuarioAoProjeto(idProjeto, membro.ID);
                 }
-            }
+        }
 
             public void AdicionarUsuarioAoProjeto(int idP, int idU)
             {
@@ -102,20 +102,20 @@ namespace BackEnd.DAO
                 comando.ExecuteNonQuery();
                 conexao.Close();
             }
-        }
 
         public void RemoverUsuario(int idU, int idP)
         {
             var conexao = ConnectionFactory.Build();
             conexao.Open();
 
-            var query = @"DELETE FROM Usuarios_Eventos WHERE Usuario_ID = @idU AND Eventos_ID = @idE";
+            var query = @"DELETE FROM Usuarios_Projeto WHERE Usuario_ID = @idU AND Eventos_ID = @idP";
 
             var comando = new MySqlCommand(query, conexao);
             comando.Parameters.AddWithValue("@idU", idU);
-            comando.Parameters.AddWithValue("@idE", idP);
+            comando.Parameters.AddWithValue("@idP", idP);
 
             comando.ExecuteNonQuery();
             conexao.Close();
         }
     }
+}
