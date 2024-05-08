@@ -31,5 +31,29 @@ namespace BackEnd.Controllers
             dao.CriarTarefa(tarefa);
             return Ok();
         }
+
+        [HttpDelete]
+        [Route("RemoverUsuarioDaTarefa")]
+        public IActionResult RemoverUsuarioDaTarefa(int idU, int idT)
+        {
+            var dao = new TarefaDAO();
+
+            //Listar Usuarios por ID_Projeto
+
+            dao.RemoverUsuario(idU, idT);
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("ExcluirTarefa")]
+        public IActionResult ExcluirTarefa(int idT)
+        {
+            var dao = new TarefaDAO();
+
+            dao.ExcluirTarefa(idT);
+
+            return Ok();
+        }
     }
 }

@@ -87,21 +87,21 @@ namespace BackEnd.DAO
                 }
         }
 
-            public void AdicionarUsuarioAoProjeto(int idP, int idU)
-            {
-                var conexao = ConnectionFactory.Build();
-                conexao.Open();
+        public void AdicionarUsuarioAoProjeto(int idP, int idU)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
 
-                var query = @"INSERT INTO Usuarios_Projeto (Projeto_ID, Usuario_ID) VALUES
-    				(@idP,@idU)";
+            var query = @"INSERT INTO Usuarios_Projeto (Projeto_ID, Usuario_ID) VALUES
+    			(@idP,@idU)";
 
-                var comando = new MySqlCommand(query, conexao);
-                comando.Parameters.AddWithValue("@idP", idP);
-                comando.Parameters.AddWithValue("@idU", idU);
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@idP", idP);
+            comando.Parameters.AddWithValue("@idU", idU);
 
-                comando.ExecuteNonQuery();
-                conexao.Close();
-            }
+            comando.ExecuteNonQuery();
+            conexao.Close();
+        }
 
         public void RemoverUsuario(int idU, int idP)
         {
@@ -112,6 +112,20 @@ namespace BackEnd.DAO
 
             var comando = new MySqlCommand(query, conexao);
             comando.Parameters.AddWithValue("@idU", idU);
+            comando.Parameters.AddWithValue("@idP", idP);
+
+            comando.ExecuteNonQuery();
+            conexao.Close();
+        }
+
+        public void ExcluirProjeto(int idP)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = @"DELETE FROM Projeto WHERE ID = @idP";
+
+            var comando = new MySqlCommand(query, conexao);
             comando.Parameters.AddWithValue("@idP", idP);
 
             comando.ExecuteNonQuery();

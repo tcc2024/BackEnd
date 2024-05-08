@@ -98,6 +98,19 @@ namespace BackEnd.DAO
             conexao.Close();
         }
 
+        public void ExcluirEvento(int idE)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = @"DELETE FROM Eventos WHERE Eventos_ID = @idE";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@idE", idE);
+
+            comando.ExecuteNonQuery();
+            conexao.Close();
+        }
     }
 }
 

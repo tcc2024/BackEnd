@@ -34,13 +34,27 @@ namespace BackEnd.Controllers
             dao.CriarProjeto(projeto, id);
             return Ok();
         }
-        public IActionResult RemoverUsuarioDoProjeto(int idU, int idE)
+
+        [HttpDelete]
+        [Route("RemoverUsuarioDoProjeto")]
+        public IActionResult RemoverUsuarioDoProjeto(int idU, int idP)
         {
             var dao = new ProjetoDAO();
 
             //Listar Usuarios por ID_Projeto
 
-            dao.RemoverUsuario(idU, idE);
+            dao.RemoverUsuario(idU, idP);
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("ExcluirProjeto")]
+        public IActionResult ExcluirProjeto(int idP)
+        {
+            var dao = new ProjetoDAO();
+
+            dao.ExcluirProjeto(idP);
 
             return Ok();
         }

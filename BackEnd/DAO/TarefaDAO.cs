@@ -152,11 +152,25 @@ namespace BackEnd.DAO
         {
             var conexao = ConnectionFactory.Build();
             conexao.Open();
-
+            
             var query = @"DELETE FROM Usuarios_Tarefas WHERE Usuario_ID = @idU AND Tarefas_ID = @idT";
-
+            
             var comando = new MySqlCommand(query, conexao);
             comando.Parameters.AddWithValue("@idU", idU);
+            comando.Parameters.AddWithValue("@idT", idT);
+            
+            comando.ExecuteNonQuery();
+            conexao.Close();
+        }
+
+        public void ExcluirTarefa(int idT)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = @"DELETE FROM Tarefa WHERE ID = @idU";
+
+            var comando = new MySqlCommand(query, conexao);
             comando.Parameters.AddWithValue("@idT", idT);
 
             comando.ExecuteNonQuery();

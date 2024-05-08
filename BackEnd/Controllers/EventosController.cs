@@ -29,12 +29,24 @@ namespace BackEnd.Controllers
             dao.CriarEvento(evento);
             return Ok();
         }
+
         [HttpDelete]
         public IActionResult RemoverUsuarioDoEvento(int idU, int idE)
         {
             var dao = new EventosDAO();
 
             dao.RemoverUsuario(idU, idE);
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("ExcluirEvento")]
+        public IActionResult ExcluirEvento(int idE)
+        {
+            var dao = new EventosDAO();
+
+            dao.ExcluirEvento(idE);
 
             return Ok();
         }

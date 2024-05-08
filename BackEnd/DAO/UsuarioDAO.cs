@@ -115,7 +115,49 @@ namespace BackEnd.DAO
             return usuario;
         }
 
+        public void ExcluirUsuario(int idU)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
 
+            var query = @"DELETE FROM Usuario WHERE ID = @idU";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@idU", idU);
+
+            comando.ExecuteNonQuery();
+            conexao.Close();
+        }
+
+        public void EditarNomeUsuario(UsuarioDTO usuario)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = @"UPDATE Usuarios SET Nome = @nome WHERE ID = @id";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@id", usuario.ID);
+            comando.Parameters.AddWithValue("@nome", usuario.Nome);
+
+            comando.ExecuteNonQuery();
+            conexao.Close();
+        }
+
+        public void EditarSenhaUsuario(UsuarioDTO usuario)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = @"UPDATE Usuarios SET Senha = @senha WHERE ID = @id";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@id", usuario.ID);
+            comando.Parameters.AddWithValue("@senha", usuario.Senha);
+
+            comando.ExecuteNonQuery();
+            conexao.Close();
+        }
 
         internal UsuarioDTO BuscarUsuarioPorID(int id)
         {
@@ -142,8 +184,6 @@ namespace BackEnd.DAO
 
             return usuario;
         }
-
-
 
         internal int BuscarIDPorEmail(string email)
         {
