@@ -87,7 +87,26 @@ namespace BackEnd.DAO
                 }
         }
 
-        public void AdicionarUsuarioAoProjeto(int idP, int idU)
+        public void EditarProjeto(ProjetoDTO projeto)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = @"UPDATE Usuarios SET 
+								Nome = @nome, 
+								Descricao = @descricao
+						  WHERE ID = @id";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@id", projeto.ID);
+            comando.Parameters.AddWithValue("@nome", projeto.Nome);
+            comando.Parameters.AddWithValue("@descricao", projeto.Descricao);
+
+            comando.ExecuteNonQuery();
+            conexao.Close();
+        }
+
+        public void AdicionarUsuarioAoProjeto(int idU, int idP)
         {
             var conexao = ConnectionFactory.Build();
             conexao.Open();
@@ -103,7 +122,7 @@ namespace BackEnd.DAO
             conexao.Close();
         }
 
-        public void RemoverUsuario(int idU, int idP)
+        public void RemoverUsuarioDoProjeto(int idU, int idP)
         {
             var conexao = ConnectionFactory.Build();
             conexao.Open();

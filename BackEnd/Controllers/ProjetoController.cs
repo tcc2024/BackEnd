@@ -36,6 +36,17 @@ namespace BackEnd.Controllers
         }
 
         [HttpDelete]
+        [Route("AdicionarUsuarioAoProjeto")]
+        public IActionResult AdicionarUsuarioAoProjeto(int idU, int idP)
+        {
+            var dao = new ProjetoDAO();
+
+            dao.AdicionarUsuarioAoProjeto(idU, idP);
+
+            return Ok();
+        }
+
+        [HttpDelete]
         [Route("RemoverUsuarioDoProjeto")]
         public IActionResult RemoverUsuarioDoProjeto(int idU, int idP)
         {
@@ -43,7 +54,7 @@ namespace BackEnd.Controllers
 
             //Listar Usuarios por ID_Projeto
 
-            dao.RemoverUsuario(idU, idP);
+            dao.RemoverUsuarioDoProjeto(idU, idP);
 
             return Ok();
         }

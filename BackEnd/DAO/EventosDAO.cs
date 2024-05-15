@@ -67,6 +67,27 @@ namespace BackEnd.DAO
             }
         }
 
+        public void EditarEvento(EventosDTO evento)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = @"UPDATE Usuarios SET 
+								Titulo = @titulo, 
+								Descricao = @descricao, 
+								DataHora = @datahora
+						  WHERE ID = @id";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@id", evento.ID);
+            comando.Parameters.AddWithValue("@titulo", evento.Titulo);
+            comando.Parameters.AddWithValue("@descricao", evento.Descricao);
+            comando.Parameters.AddWithValue("@datahora", evento.DataHora);
+
+            comando.ExecuteNonQuery();
+            conexao.Close();
+        }
+
         public void AdicionarUsuarioAoEvento(int idE, int idU)
         {
             var conexao = ConnectionFactory.Build();
@@ -83,7 +104,7 @@ namespace BackEnd.DAO
             conexao.Close();
         }
 
-        public void RemoverUsuario(int idU, int idE)
+        public void RemoverUsuarioDoEvento(int idU, int idE)
         {
             var conexao = ConnectionFactory.Build();
             conexao.Open();
