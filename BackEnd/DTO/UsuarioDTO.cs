@@ -8,5 +8,7 @@
         public string Senha { get; set; }
         public List<ProjetoDTO>? Projetos { get; set; }
         public List<TarefaDTO>? Tarefas { get; set; }
+        public string? ImagemURL { get; set; }
+        public string? Base64 { get; set; }
     }
 }

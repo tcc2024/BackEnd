@@ -24,6 +24,7 @@ namespace BackEnd.DAO
                 usuario.Nome = dataReader["Nome"].ToString();
                 usuario.Email = dataReader["Email"].ToString();
                 usuario.Senha = dataReader["Senha"].ToString();
+                usuario.ImagemURL = dataReader["ImagemURL"].ToString();
 
                 usuarios.Add(usuario);
             }
@@ -38,13 +39,14 @@ namespace BackEnd.DAO
             conexao.Open();
 
             var query = @"INSERT INTO Usuario (Nome, Email, Senha) VALUES
-    				(@nome,@email,@senha)
+    				(@nome,@email,@senha,@url)
                     SELECT LAST_INSERT_ID();";
 
             var comando = new MySqlCommand(query, conexao);
             comando.Parameters.AddWithValue("@nome", usuario.Nome);
             comando.Parameters.AddWithValue("@email", usuario.Email);
             comando.Parameters.AddWithValue("@senha", usuario.Senha);
+            comando.Parameters.AddWithValue("@url", usuario.ImagemURL);
 
             var idBD = comando.ExecuteScalar();
             conexao.Close();

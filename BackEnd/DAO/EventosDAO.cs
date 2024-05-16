@@ -20,7 +20,7 @@ namespace BackEnd.DAO
 
             var comando = new MySqlCommand(query, conexao);
             comando.Parameters.AddWithValue("@id", id);
-
+                
             var dataReader = comando.ExecuteReader();
 
             var eventos = new List<EventosDTO>();
@@ -45,7 +45,7 @@ namespace BackEnd.DAO
         }
 
         public void CriarEvento(EventosDTO evento)
-        {
+        {   
             var conexao = ConnectionFactory.Build();
             conexao.Open();
 

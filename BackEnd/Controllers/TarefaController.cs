@@ -32,15 +32,24 @@ namespace BackEnd.Controllers
             return Ok();
         }
 
+        [HttpPost]
+        [Route("AdicionarUsuarioNaTarefa")]
+        public IActionResult AdicionarUsuarioNaTarefa(int idU, int idT)
+        {
+            var dao = new TarefaDAO();
+
+            dao.AdicionarUsuarioNaTarefa(idU, idT);
+
+            return Ok();
+        }
+
         [HttpDelete]
         [Route("RemoverUsuarioDaTarefa")]
         public IActionResult RemoverUsuarioDaTarefa(int idU, int idT)
         {
             var dao = new TarefaDAO();
 
-            //Listar Usuarios por ID_Projeto
-
-            dao.RemoverUsuario(idU, idT);
+            dao.RemoverUsuarioDaTarefa(idU, idT);
 
             return Ok();
         }
@@ -52,6 +61,28 @@ namespace BackEnd.Controllers
             var dao = new TarefaDAO();
 
             dao.ExcluirTarefa(idT);
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("RemoverReferenciaDaTarefa")]
+        public IActionResult RemoverReferenciaDaTarefa(int idT, int idM)
+        {
+            var dao = new TarefaDAO();
+
+            dao.RemoverReferenciaDaTarefa(idT, idM);
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("RemoverAnexoDaTarefa")]
+        public IActionResult RemoverAnexoDaTarefa(int idT, int idM)
+        {
+            var dao = new TarefaDAO();
+
+            dao.RemoverAnexoDaTarefa(idT, idM);
 
             return Ok();
         }

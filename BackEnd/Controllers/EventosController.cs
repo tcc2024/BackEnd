@@ -22,6 +22,15 @@ namespace BackEnd.Controllers
             return Ok(listarEvento);
         }
 
+        [HttpPost]
+        [Route("CriarEvento")]
+        public IActionResult CriarEvento([FromBody] EventosDTO evento)
+        {
+            var dao = new EventosDAO();
+            dao.CriarEvento(evento);
+            return Ok();
+        }
+
         [HttpPut]
         [Route("EditarEvento")]
         public IActionResult EditarEvento(EventosDTO evento)
@@ -32,19 +41,10 @@ namespace BackEnd.Controllers
         }
 
         [HttpPut]
-        [Route("EditarEvento")]
-        public IActionResult EditarUsuariosNoEvento(EventosDTO evento)
+        [Route("AdicionarUsuariosAoEvento")]
+        public IActionResult AdicionarUsuariosAoEvento(EventosDTO evento)
         {
 
-            return Ok();
-        }
-
-        [HttpPost]
-        [Route("CriarEvento")]
-        public IActionResult CriarProjeto([FromBody] EventosDTO evento)
-        {
-            var dao = new EventosDAO();
-            dao.CriarEvento(evento);
             return Ok();
         }
 

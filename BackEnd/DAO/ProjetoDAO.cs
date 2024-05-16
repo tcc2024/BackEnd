@@ -66,7 +66,7 @@ namespace BackEnd.DAO
 
             if (projeto.Usuarios is not null && !projeto.Usuarios.Any(membro => membro.ID == idCriador))
             {
-                    projeto.Usuarios.Add(new UsuarioDTO() { ID = idCriador });
+                projeto.Usuarios.Add(new UsuarioDTO() { ID = idCriador });
             }
 
                 var query = @"INSERT INTO Projeto (Nome, Descricao) VALUES
@@ -93,7 +93,7 @@ namespace BackEnd.DAO
             conexao.Open();
 
             var query = @"UPDATE Usuarios SET 
-								Nome = @nome, 
+								Nome = @nome,
 								Descricao = @descricao
 						  WHERE ID = @id";
 

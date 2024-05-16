@@ -1,4 +1,5 @@
-﻿using BackEnd.DAO;
+﻿using BackEnd.Azure;
+using BackEnd.DAO;
 using BackEnd.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -29,6 +30,12 @@ namespace BackEnd.Controllers
             {
                 var mensagem = "E-mail já existe na base de dados";
                 return Conflict(mensagem);
+            }
+
+            if (usuario.Base64 is not null)
+            {
+                var azureBlobStorage = new AzureBlobStorage();
+                usuario.ImagemURL = azureBlobStorage.UploadImage(usuario.Base64);
             }
 
             var idNovo = usuDAO.Cadastrar(usuario);

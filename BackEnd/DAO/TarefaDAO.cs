@@ -70,7 +70,7 @@ namespace BackEnd.DAO
             }
         }
 
-        public void AdicionarUsuarioNaTarefa(int idT, int idU)
+        public void AdicionarUsuarioNaTarefa(int idU, int idT)
         {
             var conexao = ConnectionFactory.Build();
             conexao.Open();
@@ -148,7 +148,7 @@ namespace BackEnd.DAO
             conexao.Close();
         }
 
-        public void RemoverUsuario(int idU, int idT)
+        public void RemoverUsuarioDaTarefa(int idU, int idT)
         {
             var conexao = ConnectionFactory.Build();
             conexao.Open();
@@ -159,6 +159,28 @@ namespace BackEnd.DAO
             comando.Parameters.AddWithValue("@idU", idU);
             comando.Parameters.AddWithValue("@idT", idT);
             
+            comando.ExecuteNonQuery();
+            conexao.Close();
+        }
+
+        public void EditarTarefa(TarefaDTO tarefa)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = @"UPDATE Usuarios SET 
+								Nome = @nome,
+								Descricao = @descricao,
+                                
+						  WHERE ID = @id";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@id", tarefa.ID);
+            comando.Parameters.AddWithValue("@nome", tarefa.Titulo);
+            comando.Parameters.AddWithValue("@descricao", tarefa.Descricao);
+            comando.Parameters.AddWithValue("@dataentrega", tarefa.DataEntrega);
+            comando.Parameters.AddWithValue("@status", tarefa.Status);
+
             comando.ExecuteNonQuery();
             conexao.Close();
         }
