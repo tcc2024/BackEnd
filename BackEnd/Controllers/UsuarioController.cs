@@ -16,6 +16,15 @@ namespace BackEnd.Controllers
     [Authorize]
     public class UsuarioController : ControllerBase
     {
+        [HttpOptions]
+        [Route("listarUsuarios")]
+        public IActionResult ListarUsuariosPorNome(string nome)
+        {
+            var dao = new UsuarioDAO();
+            var usuarios = dao.ListarUsuariosPorNome(nome);
+            
+            return Ok(usuarios);
+        }
 
         [HttpPost]
         [Route("Cadastrar")]
@@ -58,6 +67,24 @@ namespace BackEnd.Controllers
             var token = GenerateJwtToken(usuarioLogado);
 
             return Ok(new { token });
+        }
+
+        [HttpPut]
+        [Route("EditarNomeUsuario")]
+        public IActionResult EditarNomeUsuario(UsuarioDTO usuario)
+        {
+            var dao = new UsuarioDAO();
+            dao.EditarNomeUsuario(usuario);
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("EditarSenhaUsuario")]
+        public IActionResult EditarSenhaUsuario(UsuarioDTO usuario)
+        {
+            var dao = new UsuarioDAO();
+            dao.EditarSenhaUsuario(usuario);
+            return Ok();
         }
 
         [HttpGet]

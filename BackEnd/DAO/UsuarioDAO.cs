@@ -32,6 +32,35 @@ namespace BackEnd.DAO
 
             return usuarios;
         }
+        
+        public List<UsuarioDTO> ListarUsuariosPorNome(string nome)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = "select * from usuario where nome like '%@nome' or nome like '%@nome%' or nome like '@nome%'";
+
+            var comando = new MySqlCommand(query, conexao);
+            var dataReader = comando.ExecuteReader();
+
+            comando.Parameters.AddWithValue("@nome", nome);
+
+            var usuarios = new List<UsuarioDTO>();
+
+            while (dataReader.Read())
+            {
+                var usuario = new UsuarioDTO();
+                usuario.ID = int.Parse(dataReader["ID"].ToString());
+                usuario.Nome = dataReader["Nome"].ToString();
+                usuario.Email = dataReader["Email"].ToString();
+                usuario.ImagemURL = dataReader["ImagemURL"].ToString();
+
+                usuarios.Add(usuario);
+            }
+            conexao.Close();
+
+            return usuarios;
+        }
 
         public int Cadastrar(UsuarioDTO usuario)
         {

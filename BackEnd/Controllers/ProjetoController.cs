@@ -35,6 +35,15 @@ namespace BackEnd.Controllers
             return Ok();
         }
 
+        [HttpPut]
+        [Route("EditarProjeto")]
+        public IActionResult EditarProjeto(ProjetoDTO evento)
+        {
+            var dao = new ProjetoDAO();
+            dao.EditarProjeto(evento);
+            return Ok();
+        }
+
         [HttpDelete]
         [Route("AdicionarUsuarioAoProjeto")]
         public IActionResult AdicionarUsuarioAoProjeto(int idU, int idP)

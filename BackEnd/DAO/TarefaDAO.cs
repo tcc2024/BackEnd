@@ -169,10 +169,11 @@ namespace BackEnd.DAO
             conexao.Open();
 
             var query = @"UPDATE Usuarios SET 
-								Nome = @nome,
-								Descricao = @descricao,
-                                
-						  WHERE ID = @id";
+						Nome = @nome,
+						Descricao = @descricao,
+                        Dataentrega = @dataentrega,
+                        Status = @status
+						WHERE ID = @id";
 
             var comando = new MySqlCommand(query, conexao);
             comando.Parameters.AddWithValue("@id", tarefa.ID);
