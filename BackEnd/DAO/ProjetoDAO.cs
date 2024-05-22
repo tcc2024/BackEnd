@@ -83,7 +83,7 @@ namespace BackEnd.DAO
 
                 foreach (var membro in projeto.Usuarios)
                 {
-                    AdicionarUsuarioAoProjeto(idProjeto, membro.ID);
+                    AdicionarUsuarioAoProjeto(membro.ID, idProjeto);
                 }
         }
 

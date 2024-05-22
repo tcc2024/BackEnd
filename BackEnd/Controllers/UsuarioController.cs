@@ -16,12 +16,12 @@ namespace BackEnd.Controllers
     [Authorize]
     public class UsuarioController : ControllerBase
     {
-        [HttpOptions]
+        [HttpGet]
         [Route("listarUsuarios")]
-        public IActionResult ListarUsuariosPorNome(string nome)
+        public IActionResult ListarUsuario()
         {
             var dao = new UsuarioDAO();
-            var usuarios = dao.ListarUsuariosPorNome(nome);
+            var usuarios = dao.ListarUsuarios();
             
             return Ok(usuarios);
         }
