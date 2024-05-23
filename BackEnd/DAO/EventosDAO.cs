@@ -36,7 +36,7 @@ namespace BackEnd.DAO
 
                 projeto.Nome = dataReader["NomeProjeto"].ToString();
 
-                evento.Projeto = projeto.Nome;
+                evento.ProjetoID = projeto.ID;
                 eventos.Add(evento);
             }
             conexao.Close();
@@ -44,26 +44,31 @@ namespace BackEnd.DAO
             return eventos;
         }
 
-        public void CriarEvento(EventosDTO evento)
+        public void CriarEvento(CadastroEventosDTO evento)
         {   
             var conexao = ConnectionFactory.Build();
             conexao.Open();
 
-            var query = @"INSERT INTO Eventos (Nome, Descricao) VALUES
-    				(@nome,@descricao);
+            var query = @"INSERT INTO Eventos (Nome, Descricao, Projeto_ID) VALUES
+    				(@nome,@descricao,@projeto,@dataHora);
                     SELECT LAST_INSERT_ID();";
 
             var comando = new MySqlCommand(query, conexao);
             comando.Parameters.AddWithValue("@nome", evento.Titulo);
             comando.Parameters.AddWithValue("@email", evento.Descricao);
+            comando.Parameters.AddWithValue("@projeto", evento.ProjetoID);
+            comando.Parameters.AddWithValue("@dataHora", evento.DataHora);
 
             int idEvento = Convert.ToInt32(comando.ExecuteScalar());
 
             conexao.Close();
 
-            foreach (var membroAtribuido in evento.UsuariosAtribuidos)
+            if (evento.UsuariosAtribuidos.Count > 0)
             {
-                AdicionarUsuarioAoEvento(idEvento, membroAtribuido.ID);
+                foreach (var membroAtribuido in evento.UsuariosAtribuidos)
+                {
+                    AdicionarUsuarioAoEvento(idEvento, membroAtribuido.ID);
+                }
             }
         }
 

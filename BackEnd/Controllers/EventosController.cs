@@ -1,5 +1,4 @@
-﻿
-using BackEnd.DAO;
+﻿using BackEnd.DAO;
 using BackEnd.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +23,7 @@ namespace BackEnd.Controllers
 
         [HttpPost]
         [Route("CriarEvento")]
-        public IActionResult CriarEvento([FromBody] EventosDTO evento)
+        public IActionResult CriarEvento([FromBody] CadastroEventosDTO evento)
         {
             var dao = new EventosDAO();
             dao.CriarEvento(evento);
