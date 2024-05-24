@@ -49,13 +49,13 @@ namespace BackEnd.DAO
             var conexao = ConnectionFactory.Build();
             conexao.Open();
 
-            var query = @"INSERT INTO Eventos (Nome, Descricao, Projeto_ID) VALUES
-    				(@nome,@descricao,@projeto,@dataHora);
+            var query = @"INSERT INTO Eventos (Titulo, Descricao, Projeto_ID,DataHora) VALUES
+    				(@titulo,@descricao,@projeto,@dataHora);
                     SELECT LAST_INSERT_ID();";
 
             var comando = new MySqlCommand(query, conexao);
-            comando.Parameters.AddWithValue("@nome", evento.Titulo);
-            comando.Parameters.AddWithValue("@email", evento.Descricao);
+            comando.Parameters.AddWithValue("@titulo", evento.Titulo);
+            comando.Parameters.AddWithValue("@descricao", evento.Descricao);
             comando.Parameters.AddWithValue("@projeto", evento.ProjetoID);
             comando.Parameters.AddWithValue("@dataHora", evento.DataHora);
 
@@ -67,7 +67,7 @@ namespace BackEnd.DAO
             {
                 foreach (var membroAtribuido in evento.UsuariosAtribuidos)
                 {
-                    AdicionarUsuarioAoEvento(idEvento, membroAtribuido.ID);
+                    AdicionarUsuarioAoEvento(idEvento, membroAtribuido);
                 }
             }
         }
