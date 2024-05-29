@@ -30,6 +30,12 @@ namespace BackEnd.DAO
             {
                 var tarefa = new TarefaDTO();
                 tarefa.ID = int.Parse(dataReader["ID"].ToString());
+
+                if (tarefas.Any(e => e.ID == tarefa.ID))
+                {
+                    continue;
+                }
+
                 tarefa.Titulo = dataReader["nometare"].ToString();
                 tarefa.Descricao = dataReader["descricao"].ToString();
 
