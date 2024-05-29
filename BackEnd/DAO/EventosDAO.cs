@@ -11,7 +11,7 @@ namespace BackEnd.DAO
             var conexao = ConnectionFactory.Build();
             conexao.Open();
 
-            var query = $"select e.id as IDevento, e.Titulo, e.Descricao, e.DataHora, p.nome as NomeProjeto from eventos as e " +
+            var query = $"select e.id as IDevento, e.Nome, e.Descricao, e.DataHora, p.nome as NomeProjeto from eventos as e " +
                         $"inner join usuarios_eventos as ue on e.id = ue.eventos_id " +
                         $"inner join usuario as u on ue.usuario_id = u.id " +
                         $"inner join usuarios_projeto as up on u.id = up.usuario_id " +
@@ -20,7 +20,7 @@ namespace BackEnd.DAO
 
             var comando = new MySqlCommand(query, conexao);
             comando.Parameters.AddWithValue("@id", id);
-                
+
             var dataReader = comando.ExecuteReader();
 
             var eventos = new List<EventosDTO>();
@@ -30,11 +30,19 @@ namespace BackEnd.DAO
             {
                 var evento = new EventosDTO();
                 evento.ID = int.Parse(dataReader["IDevento"].ToString());
-                evento.Titulo = dataReader["Nome"].ToString();
+
+                if (eventos.Any(e => e.ID == evento.ID))
+                {
+                    continue;
+                }
+
+                evento.Nome = dataReader["Nome"].ToString();
                 evento.Descricao = dataReader["Descricao"].ToString();
                 evento.DataHora = DateTime.Parse(dataReader["DataHora"].ToString());
 
                 projeto.Nome = dataReader["NomeProjeto"].ToString();
+
+                evento.UsuariosAtribuidos = ListarUsuariosPorEvento(evento.ID);
 
                 evento.ProjetoID = projeto.ID;
                 eventos.Add(evento);
@@ -44,17 +52,43 @@ namespace BackEnd.DAO
             return eventos;
         }
 
-        public void CriarEvento(CadastroEventosDTO evento)
-        {   
+        public List<string> ListarUsuariosPorEvento(int id)
+        {
             var conexao = ConnectionFactory.Build();
             conexao.Open();
 
-            var query = @"INSERT INTO Eventos (Titulo, Descricao, Projeto_ID,DataHora) VALUES
-    				(@titulo,@descricao,@projeto,@dataHora);
+            var query = $"select u.nome from eventos as e " +
+                        $"inner join usuarios_eventos as ue on e.id = ue.eventos_id " +
+                        $"inner join usuario as u on ue.usuario_id = u.id " +
+                        $"where e.id = @id";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@id", id);
+
+            var dataReader = comando.ExecuteReader();
+
+            var usuariosAtribuidos = new List<string>();
+
+            while (dataReader.Read())
+            {
+                usuariosAtribuidos.Add((dataReader["nome"].ToString()));
+            }
+            conexao.Close();
+
+            return usuariosAtribuidos;
+        }
+
+        public void CriarEvento(CadastroEventosDTO evento)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = @"INSERT INTO Eventos (Nome, Descricao, Projeto_ID,DataHora) VALUES
+    				(@nome,@descricao,@projeto,@dataHora);
                     SELECT LAST_INSERT_ID();";
 
             var comando = new MySqlCommand(query, conexao);
-            comando.Parameters.AddWithValue("@titulo", evento.Titulo);
+            comando.Parameters.AddWithValue("@nome", evento.Nome);
             comando.Parameters.AddWithValue("@descricao", evento.Descricao);
             comando.Parameters.AddWithValue("@projeto", evento.ProjetoID);
             comando.Parameters.AddWithValue("@dataHora", evento.DataHora);
@@ -78,14 +112,14 @@ namespace BackEnd.DAO
             conexao.Open();
 
             var query = @"UPDATE Usuarios SET 
-								Titulo = @titulo, 
+								Nome = @nome, 
 								Descricao = @descricao, 
 								DataHora = @datahora
 						  WHERE ID = @id";
 
             var comando = new MySqlCommand(query, conexao);
             comando.Parameters.AddWithValue("@id", evento.ID);
-            comando.Parameters.AddWithValue("@titulo", evento.Titulo);
+            comando.Parameters.AddWithValue("@nome", evento.Nome);
             comando.Parameters.AddWithValue("@descricao", evento.Descricao);
             comando.Parameters.AddWithValue("@datahora", evento.DataHora);
 

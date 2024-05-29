@@ -41,9 +41,10 @@ namespace BackEnd.Controllers
 
         [HttpPut]
         [Route("AdicionarUsuariosAoEvento")]
-        public IActionResult AdicionarUsuariosAoEvento(EventosDTO evento)
+        public IActionResult AdicionarUsuariosAoEvento(int idE, int idU)
         {
-
+            var dao = new EventosDAO();
+            dao.AdicionarUsuarioAoEvento(idE, idU);
             return Ok();
         }
 
