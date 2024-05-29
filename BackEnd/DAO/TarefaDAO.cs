@@ -36,7 +36,7 @@ namespace BackEnd.DAO
                     continue;
                 }
 
-                tarefa.Titulo = dataReader["nometare"].ToString();
+                tarefa.Nome = dataReader["nometare"].ToString();
                 tarefa.Descricao = dataReader["descricao"].ToString();
 
                 tarefa.Projeto = projeto.Nome;
@@ -58,7 +58,7 @@ namespace BackEnd.DAO
                     SELECT LAST_INSERT_ID();";
 
             var comando = new MySqlCommand(query, conexao);
-            comando.Parameters.AddWithValue("@nome", tarefa.Titulo);
+            comando.Parameters.AddWithValue("@nome", tarefa.Nome);
             comando.Parameters.AddWithValue("@descricao", tarefa.Descricao);
             comando.Parameters.AddWithValue("@dataentrega", tarefa.DataEntrega);
 
@@ -70,9 +70,9 @@ namespace BackEnd.DAO
             {
                 AdicionarUsuarioNaTarefa(idT, membro.ID);
             }
-            foreach (var referencia in tarefa.Referencias)
+            foreach (var anexo in tarefa.Anexos)
             {
-                AdicionarReferenciaNaTarefa(idT, referencia.URL);
+                AdicionarAnexoNaTarefa(idT, anexo.URL);
             }
         }
 
@@ -92,28 +92,12 @@ namespace BackEnd.DAO
             conexao.Close();
         }
 
-        public void AdicionarReferenciaNaTarefa(int idT, string urlReferencia)
-        {
-            var conexao = ConnectionFactory.Build();
-            conexao.Open();
-
-            var query = @"INSERT INTO tarefa_has_mtreferencia (URL, Tarefa_ID) VALUES
-    				(@urlReferencia, @idT)";
-
-            var comando = new MySqlCommand(query, conexao);
-            comando.Parameters.AddWithValue("@idT", idT);
-            comando.Parameters.AddWithValue("@urlReferencia", urlReferencia);
-
-            comando.ExecuteNonQuery();
-            conexao.Close();
-        }
-
         public void AdicionarAnexoNaTarefa(int idT, string urlAnexo)
         {
             var conexao = ConnectionFactory.Build();
             conexao.Open();
 
-            var query = @"INSERT INTO tarefa_has_mttrabalho (URL, Tarefa_ID) VALUES
+            var query = @"INSERT INTO Tarefa_has_Anexo (URL, Tarefa_ID) VALUES
     				(@urlAnexo, @idT)";
 
             var comando = new MySqlCommand(query, conexao);
@@ -124,27 +108,12 @@ namespace BackEnd.DAO
             conexao.Close();
         }
 
-        public void RemoverReferenciaDaTarefa(int idT, int idM)
-        {
-            var conexao = ConnectionFactory.Build();
-            conexao.Open();
-
-            var query = @"DELTE FROM MtReferencia_has_Tarefa WHERE MtReferencia_ID = @idM AND Tarefa_ID = @idT";
-
-            var comando = new MySqlCommand(query, conexao);
-            comando.Parameters.AddWithValue("@idT", idT);
-            comando.Parameters.AddWithValue("@idM", idM);
-
-            comando.ExecuteNonQuery();
-            conexao.Close();
-        }
-
         public void RemoverAnexoDaTarefa(int idT, int idM)
         {
             var conexao = ConnectionFactory.Build();
             conexao.Open();
 
-            var query = @"DELTE FROM Tarefa_has_MtTrabalho WHERE MtTrabalho_ID = @idM AND Tarefa_ID = @idT";
+            var query = @"DELTE FROM Tarefa_has_Anexo WHERE Anexo_ID = @idM AND Tarefa_ID = @idT";
 
             var comando = new MySqlCommand(query, conexao);
             comando.Parameters.AddWithValue("@idT", idT);
@@ -183,7 +152,7 @@ namespace BackEnd.DAO
 
             var comando = new MySqlCommand(query, conexao);
             comando.Parameters.AddWithValue("@id", tarefa.ID);
-            comando.Parameters.AddWithValue("@nome", tarefa.Titulo);
+            comando.Parameters.AddWithValue("@nome", tarefa.Nome);
             comando.Parameters.AddWithValue("@descricao", tarefa.Descricao);
             comando.Parameters.AddWithValue("@dataentrega", tarefa.DataEntrega);
             comando.Parameters.AddWithValue("@status", tarefa.Status);

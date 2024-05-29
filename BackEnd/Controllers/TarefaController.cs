@@ -64,17 +64,6 @@ namespace BackEnd.Controllers
         }
 
         [HttpDelete]
-        [Route("RemoverReferenciaDaTarefa")]
-        public IActionResult RemoverReferenciaDaTarefa(int idT, int idM)
-        {
-            var dao = new TarefaDAO();
-
-            dao.RemoverReferenciaDaTarefa(idT, idM);
-
-            return Ok();
-        }
-
-        [HttpDelete]
         [Route("RemoverAnexoDaTarefa")]
         public IActionResult RemoverAnexoDaTarefa(int idT, int idM)
         {
