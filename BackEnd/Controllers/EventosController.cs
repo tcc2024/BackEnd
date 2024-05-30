@@ -21,6 +21,15 @@ namespace BackEnd.Controllers
             return Ok(listarEvento);
         }
 
+        [HttpGet]
+        [Route("listarEventoPorID")]
+        public IActionResult ListarPorID(int id)
+        {
+            var dao = new EventosDAO();
+            var listarEvento = dao.ListarEventoPorID(id);
+            return Ok(listarEvento);
+        }
+
         [HttpPost]
         [Route("CriarEvento")]
         public IActionResult CriarEvento([FromBody] CadastroEventosDTO evento)

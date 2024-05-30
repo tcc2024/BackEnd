@@ -51,6 +51,38 @@ namespace BackEnd.DAO
 
             return eventos;
         }
+        public EventosDTO ListarEventoPorID(int id)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = $"select * from eventos " +
+                        $"where u.id = @id";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@id", id);
+
+            var dataReader = comando.ExecuteReader();
+            var projeto = new ProjetoDTO();
+            var evento = new EventosDTO();
+
+            while (dataReader.Read())
+            {
+                evento.ID = int.Parse(dataReader["IDevento"].ToString());
+                evento.Nome = dataReader["Nome"].ToString();
+                evento.Descricao = dataReader["Descricao"].ToString();
+                evento.DataHora = DateTime.Parse(dataReader["DataHora"].ToString());
+
+                projeto.Nome = dataReader["NomeProjeto"].ToString();
+
+                evento.UsuariosAtribuidos = ListarUsuariosPorEvento(evento.ID);
+
+                evento.ProjetoID = projeto.ID;
+            }
+            conexao.Close();
+
+            return evento;
+        }
 
         public List<string> ListarUsuariosPorEvento(int id)
         {
