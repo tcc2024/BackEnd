@@ -23,7 +23,7 @@ namespace BackEnd.Controllers
 
         [HttpPost]
         [Route("CriarTarefa")]
-        public IActionResult CriarTarefa([FromBody] TarefaDTO tarefa)
+        public IActionResult CriarTarefa([FromBody] CriarTarefaDTO tarefa)
         {
             var id = int.Parse(HttpContext.User.FindFirst("id")?.Value);
 
