@@ -41,6 +41,16 @@ namespace BackEnd.Controllers
             return Ok();
         }
 
+        [HttpPut]
+        [Route("AtualizarStatusTarefa/{tarefa}/{status}")]
+        public IActionResult AtualizarStatusTarefa(int tarefa, int status)
+        {
+            var dao = new TarefaDAO();
+            dao.AtualizarStatusTarefa(tarefa, status);
+            return Ok();
+        }
+
+
         [HttpPost]
         [Route("AdicionarUsuarioNaTarefa")]
         public IActionResult AdicionarUsuarioNaTarefa(int idU, int idT)
@@ -83,6 +93,15 @@ namespace BackEnd.Controllers
             dao.ExcluirTarefa(idT);
 
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("projeto/{projeto}/tarefas")]
+        public IActionResult ListarTarefasDoProjeto([FromRoute] int projeto)
+        {
+            var dao = new TarefaDAO();
+            var tarefas = dao.ListarTarefasDoProjeto(projeto);
+            return Ok(tarefas);
         }
     }
 }

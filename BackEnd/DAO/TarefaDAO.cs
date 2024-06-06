@@ -54,7 +54,7 @@ namespace BackEnd.DAO
             conexao.Open();
 
             var query = @"INSERT INTO Tarefa (Nome, Descricao, Status, DataEntrega, Projeto_ID) VALUES
-    				(@nome,@descricao,'Pendente',@dataentrega, @projeto);
+    				(@nome,@descricao,'0',@dataentrega, @projeto);
                     SELECT LAST_INSERT_ID();";
 
             var comando = new MySqlCommand(query, conexao);
@@ -67,14 +67,32 @@ namespace BackEnd.DAO
 
             conexao.Close();
 
+            AdicionarTarefaNoProjeto(idT, tarefa.Projeto_ID);
+
             foreach (var membro in tarefa.UsuariosAtribuidos)
             {
-                AdicionarUsuarioNaTarefa(idT, membro);
+                AdicionarUsuarioNaTarefa(membro, idT);
             }
             //foreach (var anexo in tarefa.Anexos)
             //{
             //    AdicionarAnexoNaTarefa(idT, anexo.URL);
             //}
+        }
+
+        private void AdicionarTarefaNoProjeto(int idT, int projeto_ID)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = @"INSERT INTO projeto_tarefa VALUES (@projeto, @tarefa);";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@projeto", projeto_ID);
+            comando.Parameters.AddWithValue("@tarefa", idT);
+
+            comando.ExecuteNonQuery();
+
+            conexao.Close();
         }
 
         public void AdicionarUsuarioNaTarefa(int idU, int idT)
@@ -128,13 +146,13 @@ namespace BackEnd.DAO
         {
             var conexao = ConnectionFactory.Build();
             conexao.Open();
-            
+
             var query = @"DELETE FROM Usuarios_Tarefas WHERE Usuario_ID = @idU AND Tarefas_ID = @idT";
-            
+
             var comando = new MySqlCommand(query, conexao);
             comando.Parameters.AddWithValue("@idU", idU);
             comando.Parameters.AddWithValue("@idT", idT);
-            
+
             comando.ExecuteNonQuery();
             conexao.Close();
         }
@@ -162,6 +180,23 @@ namespace BackEnd.DAO
             conexao.Close();
         }
 
+        public void AtualizarStatusTarefa(int tarefa, int status)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = @"UPDATE Tarefa SET 
+                        Status = @status
+						WHERE ID = @id";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@id", tarefa);
+            comando.Parameters.AddWithValue("@status", status);
+
+            comando.ExecuteNonQuery();
+            conexao.Close();
+        }
+
         public void ExcluirTarefa(int idT)
         {
             var conexao = ConnectionFactory.Build();
@@ -175,6 +210,49 @@ namespace BackEnd.DAO
             comando.ExecuteNonQuery();
             conexao.Close();
         }
+
+        public List<TarefaDTO> ListarTarefasDoProjeto(int projetoId)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = $"select u.nome as nomeusu, p.nome as nomepro, t.id, t.nome as nometare, t.descricao, t.status from usuario as u " +
+                $"inner join usuarios_projeto as up on u.id = up.usuario_id " +
+                $"inner join projeto as p on up.projeto_id = p.id " +
+                $"inner join projeto_tarefa as pt on p.id = pt.projeto_id " +
+                $"inner join tarefa as t on pt.tarefa_id = t.id " +
+                $"inner join usuarios_tarefa as ut on t.id = ut.tarefa_id " +
+                $"where p.id = @projeto";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@projeto", projetoId);
+
+            var dataReader = comando.ExecuteReader();
+
+            var tarefas = new List<TarefaDTO>();
+            var projeto = new ProjetoDTO();
+
+            while (dataReader.Read())
+            {
+                var tarefa = new TarefaDTO();
+                tarefa.ID = int.Parse(dataReader["ID"].ToString());
+
+                if (tarefas.Any(e => e.ID == tarefa.ID))
+                {
+                    continue;
+                }
+
+                tarefa.Nome = dataReader["nometare"].ToString();
+                tarefa.Descricao = dataReader["descricao"].ToString();
+                tarefa.Status = dataReader["status"].ToString();
+
+                tarefa.Projeto = projeto.Nome;
+
+                tarefas.Add(tarefa);
+            }
+            conexao.Close();
+
+            return tarefas;
+        }
     }
 }
-    
