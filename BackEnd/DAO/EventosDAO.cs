@@ -73,6 +73,7 @@ namespace BackEnd.DAO
                 evento.Descricao = dataReader["Descricao"].ToString();
                 evento.DataHora = DateTime.Parse(dataReader["DataHora"].ToString());
 
+                //projeto.Nome = dataReader["NomeProjeto"].ToString();
 
                 evento.UsuariosAtribuidos = ListarUsuariosPorEvento(evento.ID);
 
