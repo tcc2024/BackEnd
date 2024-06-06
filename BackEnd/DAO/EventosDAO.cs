@@ -57,7 +57,7 @@ namespace BackEnd.DAO
             conexao.Open();
 
             var query = $"select * from eventos " +
-                        $"where u.id = @id";
+                        $"where id = @id";
 
             var comando = new MySqlCommand(query, conexao);
             comando.Parameters.AddWithValue("@id", id);
@@ -68,12 +68,11 @@ namespace BackEnd.DAO
 
             while (dataReader.Read())
             {
-                evento.ID = int.Parse(dataReader["IDevento"].ToString());
+                evento.ID = int.Parse(dataReader["ID"].ToString());
                 evento.Nome = dataReader["Nome"].ToString();
                 evento.Descricao = dataReader["Descricao"].ToString();
                 evento.DataHora = DateTime.Parse(dataReader["DataHora"].ToString());
 
-                projeto.Nome = dataReader["NomeProjeto"].ToString();
 
                 evento.UsuariosAtribuidos = ListarUsuariosPorEvento(evento.ID);
 
@@ -143,7 +142,7 @@ namespace BackEnd.DAO
             var conexao = ConnectionFactory.Build();
             conexao.Open();
 
-            var query = @"UPDATE Usuarios SET 
+            var query = @"UPDATE Eventos SET 
 								Nome = @nome, 
 								Descricao = @descricao, 
 								DataHora = @datahora
