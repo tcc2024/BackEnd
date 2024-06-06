@@ -73,7 +73,6 @@ namespace BackEnd.Controllers
         public IActionResult ExcluirEvento(int idE)
         {
             var dao = new EventosDAO();
-
             dao.ExcluirEvento(idE);
 
             return Ok();

@@ -195,7 +195,7 @@ namespace BackEnd.DAO
             var conexao = ConnectionFactory.Build();
             conexao.Open();
 
-            var query = @"DELETE FROM Eventos WHERE Eventos_ID = @idE";
+            var query = @"DELETE FROM Usuarios_Eventos WHERE Eventos_ID = @idE; DELETE FROM Eventos WHERE ID = @idE";
 
             var comando = new MySqlCommand(query, conexao);
             comando.Parameters.AddWithValue("@idE", idE);
