@@ -13,8 +13,7 @@ namespace BackEnd.DAO
             var query = $"select u.nome as nomeusu, p.nome as nomepro, t.id, t.nome as nometare, t.descricao from usuario as u " +
                 $"inner join usuarios_projeto as up on u.id = up.usuario_id " +
                 $"inner join projeto as p on up.projeto_id = p.id " +
-                $"inner join projeto_tarefa as pt on p.id = pt.projeto_id " +
-                $"inner join tarefa as t on pt.tarefa_id = t.id " +
+                $"inner join tarefa as t on p.id = t.projeto_id " +
                 $"inner join usuarios_tarefa as ut on t.id = ut.tarefa_id " +
                 $"where u.id = @id";
 
@@ -67,7 +66,7 @@ namespace BackEnd.DAO
 
             conexao.Close();
 
-            AdicionarTarefaNoProjeto(idT, tarefa.Projeto_ID);
+            //AdicionarTarefaNoProjeto(idT, tarefa.Projeto_ID);
 
             foreach (var membro in tarefa.UsuariosAtribuidos)
             {
@@ -219,8 +218,7 @@ namespace BackEnd.DAO
             var query = $"select u.nome as nomeusu, p.nome as nomepro, t.id, t.nome as nometare, t.descricao, t.status from usuario as u " +
                 $"inner join usuarios_projeto as up on u.id = up.usuario_id " +
                 $"inner join projeto as p on up.projeto_id = p.id " +
-                $"inner join projeto_tarefa as pt on p.id = pt.projeto_id " +
-                $"inner join tarefa as t on pt.tarefa_id = t.id " +
+                $"inner join tarefa as t on p.id = t.projeto_id " +
                 $"inner join usuarios_tarefa as ut on t.id = ut.tarefa_id " +
                 $"where p.id = @projeto";
 
