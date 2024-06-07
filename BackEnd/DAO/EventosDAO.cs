@@ -6,7 +6,7 @@ namespace BackEnd.DAO
 {
     public class EventosDAO
     {
-        public List<EventosDTO> ListarEventosPorUsuario(int id)
+        public List<ListarEventoDTO> ListarEventosPorUsuario(int id)
         {
             var conexao = ConnectionFactory.Build();
             conexao.Open();
@@ -23,12 +23,12 @@ namespace BackEnd.DAO
 
             var dataReader = comando.ExecuteReader();
 
-            var eventos = new List<EventosDTO>();
+            var eventos = new List<ListarEventoDTO>();
             var projeto = new ProjetoDTO();
 
             while (dataReader.Read())
             {
-                var evento = new EventosDTO();
+                var evento = new ListarEventoDTO();
                 evento.ID = int.Parse(dataReader["IDevento"].ToString());
 
                 if (eventos.Any(e => e.ID == evento.ID))
@@ -42,6 +42,7 @@ namespace BackEnd.DAO
 
                 projeto.Nome = dataReader["NomeProjeto"].ToString();
 
+
                 evento.UsuariosAtribuidos = ListarUsuariosPorEvento(evento.ID);
 
                 evento.ProjetoID = projeto.ID;
@@ -51,7 +52,7 @@ namespace BackEnd.DAO
 
             return eventos;
         }
-        public EventosDTO ListarEventoPorID(int id)
+        public ListarEventoDTO ListarEventoPorID(int id)
         {
             var conexao = ConnectionFactory.Build();
             conexao.Open();
@@ -64,7 +65,7 @@ namespace BackEnd.DAO
 
             var dataReader = comando.ExecuteReader();
             var projeto = new ProjetoDTO();
-            var evento = new EventosDTO();
+            var evento = new ListarEventoDTO();
 
             while (dataReader.Read())
             {
@@ -84,12 +85,12 @@ namespace BackEnd.DAO
             return evento;
         }
 
-        public List<string> ListarUsuariosPorEvento(int id)
+        public List<ListarUsuarioEventoDTO> ListarUsuariosPorEvento(int id)
         {
             var conexao = ConnectionFactory.Build();
             conexao.Open();
 
-            var query = $"select u.nome from eventos as e " +
+            var query = $"select u.id, u.nome from eventos as e " +
                         $"inner join usuarios_eventos as ue on e.id = ue.eventos_id " +
                         $"inner join usuario as u on ue.usuario_id = u.id " +
                         $"where e.id = @id";
@@ -99,11 +100,14 @@ namespace BackEnd.DAO
 
             var dataReader = comando.ExecuteReader();
 
-            var usuariosAtribuidos = new List<string>();
+            var usuariosAtribuidos = new List<ListarUsuarioEventoDTO>();
 
             while (dataReader.Read())
             {
-                usuariosAtribuidos.Add((dataReader["nome"].ToString()));
+                var usuario = new ListarUsuarioEventoDTO();
+                usuario.ID = int.Parse(dataReader["id"].ToString());
+                usuario.Name = dataReader["nome"].ToString();
+                usuariosAtribuidos.Add(usuario);
             }
             conexao.Close();
 
