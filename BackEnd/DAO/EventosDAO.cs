@@ -57,7 +57,7 @@ namespace BackEnd.DAO
             conexao.Open();
 
             var query = $"select * from eventos " +
-                        $"where u.id = @id";
+                        $"where id = @id";
 
             var comando = new MySqlCommand(query, conexao);
             comando.Parameters.AddWithValue("@id", id);
@@ -68,7 +68,7 @@ namespace BackEnd.DAO
 
             while (dataReader.Read())
             {
-                evento.ID = int.Parse(dataReader["IDevento"].ToString());
+                evento.ID = int.Parse(dataReader["ID"].ToString());
                 evento.Nome = dataReader["Nome"].ToString();
                 evento.Descricao = dataReader["Descricao"].ToString();
                 evento.DataHora = DateTime.Parse(dataReader["DataHora"].ToString());
