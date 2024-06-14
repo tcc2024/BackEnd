@@ -160,12 +160,12 @@ namespace BackEnd.DAO
             conexao.Close();
         }
 
-        public void EditarNomeUsuario(UsuarioDTO usuario)
+        public void EditarUsuario(UsuarioDTO usuario)
         {
             var conexao = ConnectionFactory.Build();
             conexao.Open();
 
-            var query = @"UPDATE Usuarios SET Nome = @nome WHERE ID = @id";
+            var query = @"UPDATE Usuario SET Nome = @nome WHERE ID = @id";
 
             var comando = new MySqlCommand(query, conexao);
             comando.Parameters.AddWithValue("@id", usuario.ID);

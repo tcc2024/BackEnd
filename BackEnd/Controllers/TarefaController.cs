@@ -21,6 +21,15 @@ namespace BackEnd.Controllers
             return Ok(listarTarefa);
         }
 
+        [HttpGet]
+        [Route("listarTarefaPorID")]
+        public IActionResult ListarPorID(int id)
+        {
+            var dao = new TarefaDAO();
+            var listarTarefa = dao.ListarTarefaPorID(id);
+            return Ok(listarTarefa);
+        }
+
         [HttpPost]
         [Route("CriarTarefa")]
         public IActionResult CriarTarefa([FromBody] CriarTarefaDTO tarefa)

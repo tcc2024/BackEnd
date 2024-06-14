@@ -106,7 +106,7 @@ namespace BackEnd.DAO
             {
                 var usuario = new ListarUsuarioEventoDTO();
                 usuario.ID = int.Parse(dataReader["id"].ToString());
-                usuario.Name = dataReader["nome"].ToString();
+                usuario.Nome = dataReader["nome"].ToString();
                 usuariosAtribuidos.Add(usuario);
             }
             conexao.Close();
@@ -151,15 +151,24 @@ namespace BackEnd.DAO
 								Nome = @nome, 
 								Descricao = @descricao, 
 								DataHora = @datahora
-						  WHERE ID = @id";
+						  WHERE ID = @id;
+                          DELETE FROM Usuarios_Eventos WHERE Eventos_ID = @id";
 
             var comando = new MySqlCommand(query, conexao);
             comando.Parameters.AddWithValue("@id", evento.ID);
             comando.Parameters.AddWithValue("@nome", evento.Nome);
             comando.Parameters.AddWithValue("@descricao", evento.Descricao);
             comando.Parameters.AddWithValue("@datahora", evento.DataHora);
-
             comando.ExecuteNonQuery();
+
+            if (evento.UsuariosAtribuidos.Count > 0)
+            {
+                foreach (var membroAtribuido in evento.UsuariosAtribuidos)
+                {
+                    AdicionarUsuarioAoEvento(evento.ID, membroAtribuido);
+                }
+            }
+
             conexao.Close();
         }
 

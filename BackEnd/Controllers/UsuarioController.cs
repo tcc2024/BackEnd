@@ -70,11 +70,11 @@ namespace BackEnd.Controllers
         }
 
         [HttpPut]
-        [Route("EditarNomeUsuario")]
-        public IActionResult EditarNomeUsuario(UsuarioDTO usuario)
+        [Route("EditarUsuario")]
+        public IActionResult EditarUsuario([FromBody]UsuarioDTO usuario)
         {
             var dao = new UsuarioDAO();
-            dao.EditarNomeUsuario(usuario);
+            dao.EditarUsuario(usuario);
             return Ok();
         }
 

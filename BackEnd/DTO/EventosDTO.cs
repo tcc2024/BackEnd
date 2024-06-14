@@ -7,6 +7,6 @@
         public string? Descricao { get; set; }
         public DateTime DataHora { get; set; }
         public int? ProjetoID { get; set; }
-        public List<string>? UsuariosAtribuidos { get; set; }
+        public List<int>? UsuariosAtribuidos { get; set; }
     }
 }

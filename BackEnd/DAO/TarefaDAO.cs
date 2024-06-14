@@ -5,7 +5,7 @@ namespace BackEnd.DAO
 {
     public class TarefaDAO
     {
-        public List<TarefaDTO> ListarTarefaPorUsuario(int id)
+        public List<ListarTarefaDTO> ListarTarefaPorUsuario(int id)
         {
             var conexao = ConnectionFactory.Build();
             conexao.Open();
@@ -22,12 +22,12 @@ namespace BackEnd.DAO
 
             var dataReader = comando.ExecuteReader();
 
-            var tarefas = new List<TarefaDTO>();
+            var tarefas = new List<ListarTarefaDTO>();
             var projeto = new ProjetoDTO();
 
             while (dataReader.Read())
             {
-                var tarefa = new TarefaDTO();
+                var tarefa = new ListarTarefaDTO();
                 tarefa.ID = int.Parse(dataReader["ID"].ToString());
 
                 if (tarefas.Any(e => e.ID == tarefa.ID))
@@ -45,6 +45,67 @@ namespace BackEnd.DAO
             conexao.Close();
 
             return tarefas;
+        }
+        public ListarTarefaDTO ListarTarefaPorID(int id)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = $"select * from tarefa " +
+                        $"where id = @id";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@id", id);
+
+            var dataReader = comando.ExecuteReader();
+            var projeto = new ProjetoDTO();
+            var tarefa = new ListarTarefaDTO();
+
+            while (dataReader.Read())
+            {
+                tarefa.ID = int.Parse(dataReader["ID"].ToString());
+                tarefa.Nome = dataReader["Nome"].ToString();
+                tarefa.Descricao = dataReader["Descricao"].ToString();
+                tarefa.DataEntrega = DateTime.Parse(dataReader["DataEntrega"].ToString());
+
+                //projeto.Nome = dataReader["NomeProjeto"].ToString();
+
+                tarefa.UsuariosAtribuidos = ListarUsuariosPorTarefa(tarefa.ID);
+
+                tarefa.Projeto = projeto.Nome;
+            }
+            conexao.Close();
+
+            return tarefa;
+        }
+
+        public List<ListarUsuarioTarefaDTO> ListarUsuariosPorTarefa(int id)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = $"select u.id, u.nome from tarefas as e " +
+                        $"inner join usuarios_tarefas as ue on e.id = ue.tarefas_id " +
+                        $"inner join usuario as u on ue.usuario_id = u.id " +
+                        $"where e.id = @id";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@id", id);
+
+            var dataReader = comando.ExecuteReader();
+
+            var usuariosAtribuidos = new List<ListarUsuarioTarefaDTO>();
+
+            while (dataReader.Read())
+            {
+                var usuario = new ListarUsuarioTarefaDTO();
+                usuario.ID = int.Parse(dataReader["id"].ToString());
+                usuario.Nome = dataReader["nome"].ToString();
+                usuariosAtribuidos.Add(usuario);
+            }
+            conexao.Close();
+
+            return usuariosAtribuidos;
         }
 
         public void CriarTarefa(CriarTarefaDTO tarefa)
@@ -76,22 +137,6 @@ namespace BackEnd.DAO
             //{
             //    AdicionarAnexoNaTarefa(idT, anexo.URL);
             //}
-        }
-
-        private void AdicionarTarefaNoProjeto(int idT, int projeto_ID)
-        {
-            var conexao = ConnectionFactory.Build();
-            conexao.Open();
-
-            var query = @"INSERT INTO projeto_tarefa VALUES (@projeto, @tarefa);";
-
-            var comando = new MySqlCommand(query, conexao);
-            comando.Parameters.AddWithValue("@projeto", projeto_ID);
-            comando.Parameters.AddWithValue("@tarefa", idT);
-
-            comando.ExecuteNonQuery();
-
-            conexao.Close();
         }
 
         public void AdicionarUsuarioNaTarefa(int idU, int idT)
@@ -166,7 +211,8 @@ namespace BackEnd.DAO
 						Descricao = @descricao,
                         Dataentrega = @dataentrega,
                         Status = @status
-						WHERE ID = @id";
+						WHERE ID = @id;
+                        DELETE FROM Usuarios_Tarefa WHERE Tarefa_ID = @id";
 
             var comando = new MySqlCommand(query, conexao);
             comando.Parameters.AddWithValue("@id", tarefa.ID);
@@ -174,8 +220,15 @@ namespace BackEnd.DAO
             comando.Parameters.AddWithValue("@descricao", tarefa.Descricao);
             comando.Parameters.AddWithValue("@dataentrega", tarefa.DataEntrega);
             comando.Parameters.AddWithValue("@status", tarefa.Status);
-
             comando.ExecuteNonQuery();
+
+            if (tarefa.UsuariosAtribuidos.Count > 0)
+            {
+                foreach (var membroAtribuido in tarefa.UsuariosAtribuidos)
+                {
+                    AdicionarUsuarioNaTarefa(tarefa.ID, membroAtribuido);
+                }
+            }
             conexao.Close();
         }
 
