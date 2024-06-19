@@ -66,7 +66,18 @@ namespace BackEnd.DAO
                 tarefa.ID = int.Parse(dataReader["ID"].ToString());
                 tarefa.Nome = dataReader["Nome"].ToString();
                 tarefa.Descricao = dataReader["Descricao"].ToString();
-                tarefa.DataEntrega = DateTime.Parse(dataReader["DataEntrega"].ToString());
+                tarefa.Status = dataReader["Status"].ToString();
+
+                // Verifica se o campo DataEntrega não é DBNull ou vazio antes de converter
+                if (dataReader["DataEntrega"] != DBNull.Value && !string.IsNullOrWhiteSpace(dataReader["DataEntrega"].ToString()))
+                {
+                    tarefa.DataEntrega = DateTime.Parse(dataReader["DataEntrega"].ToString());
+                }
+                else
+                {
+                    // Se DataEntrega for DBNull ou vazio, você pode definir um valor padrão, null, ou tratar de outra forma adequada ao seu caso
+                    tarefa.DataEntrega = null; // Por exemplo, se seu tipo for DateTime? (nullable)
+                }
 
                 //projeto.Nome = dataReader["NomeProjeto"].ToString();
 
@@ -84,8 +95,8 @@ namespace BackEnd.DAO
             var conexao = ConnectionFactory.Build();
             conexao.Open();
 
-            var query = $"select u.id, u.nome from tarefas as e " +
-                        $"inner join usuarios_tarefas as ue on e.id = ue.tarefas_id " +
+            var query = $"select u.id, u.nome from tarefa as e " +
+                        $"inner join usuarios_tarefa as ue on e.id = ue.tarefa_id " +
                         $"inner join usuario as u on ue.usuario_id = u.id " +
                         $"where e.id = @id";
 
@@ -206,11 +217,10 @@ namespace BackEnd.DAO
             var conexao = ConnectionFactory.Build();
             conexao.Open();
 
-            var query = @"UPDATE Usuarios SET 
+            var query = @"UPDATE Tarefa SET 
 						Nome = @nome,
 						Descricao = @descricao,
-                        Dataentrega = @dataentrega,
-                        Status = @status
+                        Dataentrega = @dataentrega
 						WHERE ID = @id;
                         DELETE FROM Usuarios_Tarefa WHERE Tarefa_ID = @id";
 
@@ -219,7 +229,6 @@ namespace BackEnd.DAO
             comando.Parameters.AddWithValue("@nome", tarefa.Nome);
             comando.Parameters.AddWithValue("@descricao", tarefa.Descricao);
             comando.Parameters.AddWithValue("@dataentrega", tarefa.DataEntrega);
-            comando.Parameters.AddWithValue("@status", tarefa.Status);
             comando.ExecuteNonQuery();
 
             if (tarefa.UsuariosAtribuidos.Count > 0)
