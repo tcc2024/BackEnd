@@ -24,6 +24,15 @@ namespace BackEnd.Controllers
             return Ok(listarProjeto);
         }
 
+        [HttpGet]
+        [Route("listarProjetoPorID")]
+        public IActionResult ListarPorID(int id)
+        {
+            var dao = new ProjetoDAO();
+            var listarProjeto = dao.ListarProjetoPorID(id);
+            return Ok(listarProjeto);
+        }
+
         [HttpPost]
         [Route("CriarProjeto")]
         public IActionResult CriarProjeto([FromBody] ProjetoDTO projeto)

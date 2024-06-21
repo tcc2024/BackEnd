@@ -6,7 +6,7 @@ namespace BackEnd.DAO
     {
         public static MySqlConnection Build()
         {
-            var connectionString = "Server=localhost;Database=TaskSync;Uid=root;Pwd=root;";
+            var connectionString = "Server=localhost;Database=TaskSync;Uid=tasksync;Pwd=Semlogin0011#;";
             return new MySqlConnection(connectionString);
         }
     }

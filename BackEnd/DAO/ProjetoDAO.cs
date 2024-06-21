@@ -35,6 +35,60 @@ namespace BackEnd.DAO
 
             return projetos;
         }
+        public ListarProjetoDTO ListarProjetoPorID(int id)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = $"select * from projeto " +
+                        $"where id = @id";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@id", id);
+
+            var dataReader = comando.ExecuteReader();
+            var projeto = new ListarProjetoDTO();
+
+            while (dataReader.Read())
+            {
+                projeto.ID = int.Parse(dataReader["ID"].ToString());
+                projeto.Nome = dataReader["Nome"].ToString();
+                projeto.Descricao = dataReader["Descricao"].ToString();
+                projeto.UsuariosAtribuidos = ListarUsuariosPorProjeto(projeto.ID);
+            }
+            conexao.Close();
+
+            return projeto;
+        }
+
+        public List<ListarUsuarioProjetoDTO> ListarUsuariosPorProjeto(int id)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = $"select u.id, u.nome from projeto as p " +
+                        $"inner join usuarios_projeto as up on p.id = up.projeto_id " +
+                        $"inner join usuario as u on up.usuario_id = u.id " +
+                        $"where p.id = @id";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@id", id);
+
+            var dataReader = comando.ExecuteReader();
+
+            var usuariosAtribuidos = new List<ListarUsuarioProjetoDTO>();
+
+            while (dataReader.Read())
+            {
+                var usuario = new ListarUsuarioProjetoDTO();
+                usuario.ID = int.Parse(dataReader["id"].ToString());
+                usuario.Nome = dataReader["nome"].ToString();
+                usuariosAtribuidos.Add(usuario);
+            }
+            conexao.Close();
+
+            return usuariosAtribuidos;
+        }
 
         public void CriarProjetoMinhasTarefas(int idNovo)
         {
