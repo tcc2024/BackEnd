@@ -68,14 +68,14 @@ namespace BackEnd.DAO
             conexao.Open();
 
             var query = @"INSERT INTO Usuario (Nome, Email, Senha) VALUES
-    				(@nome,@email,@senha,@url)
+    				(@nome,@email,@senha);
                     SELECT LAST_INSERT_ID();";
 
             var comando = new MySqlCommand(query, conexao);
             comando.Parameters.AddWithValue("@nome", usuario.Nome);
             comando.Parameters.AddWithValue("@email", usuario.Email);
             comando.Parameters.AddWithValue("@senha", usuario.Senha);
-            comando.Parameters.AddWithValue("@url", usuario.ImagemURL);
+            //comando.Parameters.AddWithValue("@url", usuario.ImagemURL);
 
             var idBD = comando.ExecuteScalar();
             conexao.Close();
@@ -115,6 +115,7 @@ namespace BackEnd.DAO
 
         public UsuarioDTO Login(string Email, string Senha)
         {
+        
             var conexao = ConnectionFactory.Build();
             conexao.Open();
 

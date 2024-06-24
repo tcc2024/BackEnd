@@ -235,7 +235,7 @@ namespace BackEnd.DAO
             {
                 foreach (var membroAtribuido in tarefa.UsuariosAtribuidos)
                 {
-                    AdicionarUsuarioNaTarefa(tarefa.ID, membroAtribuido);
+                    AdicionarUsuarioNaTarefa(membroAtribuido, tarefa.ID);
                 }
             }
             conexao.Close();

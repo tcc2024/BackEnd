@@ -104,7 +104,7 @@ namespace BackEnd.DAO
             int idP = Convert.ToInt32(comando.ExecuteScalar());
 
             conexao.Close();
-            AdicionarUsuarioAoProjeto(idP, idNovo);
+            AdicionarUsuarioAoProjeto(idNovo, idP);
         }
 
 

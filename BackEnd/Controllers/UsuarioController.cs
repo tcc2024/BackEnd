@@ -33,6 +33,7 @@ namespace BackEnd.Controllers
         {
             var usuDAO = new UsuarioDAO();
             var projDAO = new ProjetoDAO();
+            var usuarioLogado = usuDAO.Cadastrar(usuario);
 
             bool usuarioExiste = usuDAO.VerificarUsuario(usuario);
             if (usuarioExiste)
@@ -47,9 +48,12 @@ namespace BackEnd.Controllers
                 usuario.ImagemURL = azureBlobStorage.UploadImage(usuario.Base64);
             }
 
+
             var idNovo = usuDAO.Cadastrar(usuario);
             projDAO.CriarProjetoMinhasTarefas(idNovo);
-            return Ok();
+            var token = GenerateJwtToken(usuario);
+
+            return Ok(new { token });
         }
 
         [HttpPost]
